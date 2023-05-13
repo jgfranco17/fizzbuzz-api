@@ -61,8 +61,8 @@ make run
 
 To get a FizzBuzz sequence, simply send a `GET` request to the server, with the number as a parameter.
 
-```bash
-http://localhost:<PORT>/fizzbuzz/<number>
+```text
+http://localhost:<PORT>/fizzbuzz?number=<number>
 ```
 
 ## ✒️ Authors <a name = "authors"></a>
