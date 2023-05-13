@@ -1,7 +1,7 @@
 """
 FIZZBUZZ MODULE
 """
-def is_divisible_by(num, divisor):
+def is_divisible_by(num, divisor) -> bool:
     """
     FUnction to unnecessarily complicate the modulo operation.
 
@@ -15,7 +15,7 @@ def is_divisible_by(num, divisor):
     return num % divisor == 0
 
 
-def fizzbuzz(n: int):
+def fizzbuzz(n: int) -> str:
     """
     Performs a standard FizzBuzz check on a given number. If the 
     number is divisible by 3, returns "Fizz". If the number is 
@@ -29,9 +29,6 @@ def fizzbuzz(n: int):
     Returns:
         str: The FizzBuzz result for the given number.
     """
-    if not isinstance(n, int):
-        raise TypeError(f'Number given must be integer.')
-
     result = ""
     
     if is_divisible_by(n, 3):
@@ -41,3 +38,7 @@ def fizzbuzz(n: int):
         result += "Buzz"
     
     return result.strip() if result else str(n)
+
+
+def generate_fizzbuzz_sequence(limit: int) -> list:
+    return [fizzbuzz(i) for i in range(1, limit+1)]
