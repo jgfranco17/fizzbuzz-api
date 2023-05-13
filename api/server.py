@@ -23,10 +23,10 @@ def create_server() -> FastAPI:
                 raise TypeError(f'Number given must be integer.')
             
             output = generate_fizzbuzz_sequence(number)
-            response = {
+            response = ({
                 "count": number,
                 "sequence": output
-            }
+            }, 200)
 
         except TypeError as e:
             print(f'Invalid input: {e}')
