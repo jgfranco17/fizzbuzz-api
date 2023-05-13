@@ -30,7 +30,7 @@ def read_requirements(path):
 
 
 setup(
-    name="qr-api",
+    name="fizzbuzz-api",
     version=read("api", "VERSION"),
     description="API deployment of the classic fizzbuzz",
     url="https://github.com/jgfranco17/fizzbuzz-api/",
