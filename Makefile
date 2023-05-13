@@ -25,12 +25,6 @@ run:  ## Launch API.
 	@echo "Running main app..."
 	@python3 app.py --port $(PORT)
 
-.PHONY: test
-test:  ## Run PyTest unit tests.
-	@echo "Running unittest suite..."
-	@pytest -vv -rA
-	@rm -rf .pytest_cache
-
 .PHONY: lint
 lint:  ## Run pep8, black, mypy linters.
 	$(ENV_PREFIX)pylint webserver/
