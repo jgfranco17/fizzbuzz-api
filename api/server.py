@@ -13,7 +13,7 @@ def create_server() -> FastAPI:
 
     @app.route("/", methods=['GET'])
     def root():
-        return {"message": "<h1>Welcome to the FizzBuzz API!</h1>"}
+        return {"message": "Welcome to the FizzBuzz API!"}
 
     @app.route("/fizzbuzz/{number}", methods=['GET'])
     def compute(number: int):
