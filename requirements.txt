@@ -1,3 +1,2 @@
-Flask
-qrcode
-pydantic
+fastapi
+uvicorn
