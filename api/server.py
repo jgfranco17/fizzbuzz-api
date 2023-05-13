@@ -15,12 +15,15 @@ def create_server() -> FastAPI:
     def root():
         return {"message": "Welcome to the FizzBuzz API!"}
 
-    @app.get("/fizzbuzz/{number}", status_code=200)
-    def compute(number: int):
+    @app.get("/fizzbuzz", status_code=200)
+    def compute(number: int = None):
         response = {"result": "none"}
         try:
+            if number is None:
+                raise ValueError("No number provided.")
+
             if not isinstance(number, int):
-                raise TypeError(f'Number given must be integer.')
+                raise TypeError(f'Number {number} is not integer.')
             
             output = generate_fizzbuzz_sequence(number)
             response = {
@@ -28,7 +31,7 @@ def create_server() -> FastAPI:
                 "sequence": output
             }
 
-        except TypeError as e:
+        except (TypeError, ValueError) as e:
             print(f'Invalid input: {e}')
 
         return response
