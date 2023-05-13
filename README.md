@@ -45,24 +45,52 @@ pip install -r requirements.txt
 
 ## 🚀 Usage <a name = "usage"></a>
 
-### CLI usage
+### Dev mode
 
 To run the API server in dev mode, simply execute either of the following commands:
 
 ```bash
 # Default Python execution
-python app.py --port PORT
+python app.py --port <PORT>
 
 # Or, after editing the Makefile to set a port number
 make run
 ```
 
-## Calling the API
+### Build as Python module
 
-To get a FizzBuzz sequence, simply send a `GET` request to the server, with the number as a parameter.
+To build the project as a Python module, run the following commands.
 
-```text
-http://localhost:<PORT>/fizzbuzz?number=<number>
+```bash
+cd fizzbuzz-api
+pip install .
+```
+
+Once the installation is completed, the package can be run as an independent CLI tool.
+
+```bash
+fizzbuzz-api -p <PORT>
+```
+
+### Build with Docker
+
+To run the microservice in a container, the package comes with both a Dockerfile and a Compose YAML configuration. Run either of the following to get the API launched in a container; by default, the API will be set to listen on port 5050 for the Compose.
+
+```bash
+# Plain Docker build
+docker build -t fizzbuzz-api .
+docker run -p 5050:5050 fizzbuzz-api
+
+# Docker-Compose build
+docker-compose up
+```
+
+## 🌐 Calling the API
+
+Once the microservice is launched, the API is now reachable. To get a FizzBuzz sequence, simply send a `GET` request to the server, with the number as a parameter.
+
+```bash
+curl http://localhost:<PORT>/fizzbuzz?number=<number>
 ```
 
 ## ✒️ Authors <a name = "authors"></a>
