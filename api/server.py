@@ -11,11 +11,11 @@ def create_server() -> FastAPI:
     """
     app = FastAPI()
 
-    @app.route("/", methods=['GET'])
+    @app.get("/")
     def root():
         return {"message": "Welcome to the FizzBuzz API!"}
 
-    @app.route("/fizzbuzz/{number}", methods=['GET'])
+    @app.get("/fizzbuzz/{number}")
     def compute(number: int):
         response = ({"result": "none"}, 400)
         try:
