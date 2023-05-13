@@ -2,13 +2,13 @@
 CLI interface for API.
 """
 from .utils import load_args
-from .models.server import create_server
+from .server import create_server
 
 
 def main():  # pragma: no cover
     """
     The main function executes on commands:
-    `python3 -m qr-api` and `$ qr-api `.
+    `python3 -m fizzbuzz-api` and `$ fizzbuzz-api`.
 
     This is the program's entry point.
     """
