@@ -22,8 +22,8 @@ def create_server() -> FastAPI:
             if number is None:
                 raise ValueError("No number provided.")
 
-            if number <= 0:
-                raise ValueError("Number must a positive integer.")
+            if not 1 <= number <= 10**4:
+                raise ValueError("Number must a positive integer from 1 to 10^4.")
 
             if not isinstance(number, int):
                 raise TypeError(f'Number {number} is not integer.')
