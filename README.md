@@ -85,6 +85,12 @@ docker run -p 5050:5050 fizzbuzz-api
 docker-compose up
 ```
 
+The Docker image is also available on [Docker Hub](https://hub.docker.com/r/jgfranco17/fizzbuzz-api)
+
+```bash
+docker pull jgfranco17/fizzbuzz-api:latest
+```
+
 ## 🌐 Calling the API
 
 Once the microservice is launched, the API is now reachable. To get a FizzBuzz sequence, simply send a `GET` request to the server, with the number as a parameter.
