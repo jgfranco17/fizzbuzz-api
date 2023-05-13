@@ -17,10 +17,13 @@ def create_server() -> FastAPI:
 
     @app.get("/fizzbuzz", status_code=200)
     def compute(number: int = None):
-        response = {"result": "none"}
+        response = {"message": "Invalid input"}
         try:
             if number is None:
                 raise ValueError("No number provided.")
+
+            if number <= 0:
+                raise ValueError("Number must a positive integer.")
 
             if not isinstance(number, int):
                 raise TypeError(f'Number {number} is not integer.')
