@@ -41,4 +41,13 @@ def fizzbuzz(n: int) -> str:
 
 
 def generate_fizzbuzz_sequence(limit: int) -> list:
+    """
+    Creates a list for API output
+
+    Args:
+        limit (int): Count of how many numbers to run
+
+    Returns:
+        list: Resulting FizzBuzz outputs
+    """
     return [fizzbuzz(i) for i in range(1, limit+1)]
