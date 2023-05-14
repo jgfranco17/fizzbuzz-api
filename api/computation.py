@@ -1,9 +1,12 @@
 """
 FIZZBUZZ MODULE
 """
-def is_divisible_by(num, divisor) -> bool:
+from typing import Iterable
+
+
+def is_divisible_by(num: int, divisor: int) -> bool:
     """
-    FUnction to unnecessarily complicate the modulo operation.
+    Function to unnecessarily complicate the modulo operation.
 
     Args:
         num (nnt): Number to be tested
