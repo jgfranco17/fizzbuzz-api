@@ -18,9 +18,9 @@
 
 ## 🔎 About <a name = "about"></a>
 
-This project aims to create a FastAPI-based microservice that solves the classic FizzBuzz programming problem. The FizzBuzz problem is a common coding challenge often used in interviews to evaluate a candidate's basic programming skills. The task is to write a program that prints numbers from 1 to n; however, for multiples of 3, it should print "Fizz" instead of the number, for multiples of 5, it should print "Buzz," and for numbers that are multiples of both 3 and 5, it should print "FizzBuzz."
+The whole point of this project is to showcase the concepts of SWE and DevOps that I have learned so far. This project features CI/CD workflows and automations, unittesting, and containerization. Git & Github were used as the VCS, and a Docker Hub image is published for container deployment. I dub this as "FizzBuzz-as-a-Service".
 
-The FizzBuzz Microservice API provides a simple HTTP-based API to solve the FizzBuzz problem. It allows users to make requests to the microservice and receive the FizzBuzz sequence as a response. This microservice can be easily integrated into other applications or used for testing and learning purposes.
+This program aims to create a FastAPI-based microservice that solves the classic FizzBuzz programming problem. The FizzBuzz problem is a common coding challenge often used in interviews to evaluate a candidate's basic programming skills. The task is to write a program that prints numbers from 1 to n; however, for multiples of 3, it should print "Fizz" instead of the number, for multiples of 5, it should print "Buzz," and for numbers that are multiples of both 3 and 5, it should print "FizzBuzz". The FizzBuzz Microservice API provides a simple HTTP-based API to solve the FizzBuzz problem. It allows users to make requests to the microservice and receive the FizzBuzz sequence as a response. This microservice can be easily integrated into other applications or used for testing and learning purposes.
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
