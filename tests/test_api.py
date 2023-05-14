@@ -14,9 +14,10 @@ def test_internet_connectivity():
         pytest.fail(f"Failed to establish internet connection to {url}")
 
 
-def test_unsupported_route(client):
-    response = client.get("/random")
-    assert response.status_code == 404
+def test_unsupported_routes(client):
+    for invalid_endpoint in ("random", "doesnt-exist", "fail"):
+        response = client.get(f'/{invalid_endpoint}')
+        assert response.status_code == 404, "Endpoint does not exist in API."
 
 
 def test_root_endpoint(client):
