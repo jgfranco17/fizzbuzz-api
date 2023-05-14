@@ -57,10 +57,10 @@ clean:  ## Clean unused files.
 	@rm -rf .venv
 	@echo "Cleaned out unused files and directories!"
 
-.PHONY: test-build
-test-build:
-	@echo "Setting up project..."
-	@pip3 install --upgrade setuptools
-	@pip3 install -r requirements.txt
-	@echo "Project build complete!"
-	@pip install .
+.PHONY: test
+test:  ## Run PyTest unit tests.
+	@echo "Running unittest suite..."
+	@pytest -vv -rA
+	@echo "Cleaning up test environment"
+	@find ./ -name '__pycache__' -exec rm -rf {} \;
+	@rm -rf .pytest_cache
