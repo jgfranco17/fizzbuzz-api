@@ -1,9 +1,6 @@
 """
 FIZZBUZZ MODULE
 """
-from typing import Iterable
-
-
 def is_divisible_by(num: int, divisor: int) -> bool:
     """
     Function to unnecessarily complicate the modulo operation.
@@ -20,11 +17,11 @@ def is_divisible_by(num: int, divisor: int) -> bool:
 
 def fizzbuzz(n: int) -> str:
     """
-    Performs a standard FizzBuzz check on a given number. If the 
-    number is divisible by 3, returns "Fizz". If the number is 
+    Performs a standard FizzBuzz check on a given number. If the
+    number is divisible by 3, returns "Fizz". If the number is
     divisible by 5, returns "Buzz". If the number is divisible by
     both 3 and 5, returns "FizzBuzz". Otherwise, returns the string
-    representation of the number. 
+    representation of the number.
 
     Parameters:
         n (nnt): The number to be checked
@@ -33,13 +30,13 @@ def fizzbuzz(n: int) -> str:
         str: The FizzBuzz result for the given number.
     """
     result = ""
-    
+
     if is_divisible_by(n, 3):
         result += "Fizz"
-    
+
     if is_divisible_by(n, 5):
         result += "Buzz"
-    
+
     return result.strip() if result else str(n)
 
 
