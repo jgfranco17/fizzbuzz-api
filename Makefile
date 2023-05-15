@@ -27,10 +27,10 @@ run:  ## Launch API.
 
 .PHONY: lint
 lint:  ## Run pep8, black, mypy linters.
-	$(ENV_PREFIX)pylint webserver/
-	$(ENV_PREFIX)flake8 webserver/
-	$(ENV_PREFIX)black -l 80 --check webserver/
-	$(ENV_PREFIX)mypy --ignore-missing-imports webserver/
+	$(ENV_PREFIX)pylint api/
+	$(ENV_PREFIX)flake8 api/
+	$(ENV_PREFIX)black -l 80 --check api/
+	$(ENV_PREFIX)mypy --ignore-missing-imports api/
 
 .PHONY: show
 show:  ## Show the current environment.
