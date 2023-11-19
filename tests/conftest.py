@@ -1,5 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
+
 from api import create_server
 
 
@@ -16,7 +17,20 @@ def sample_data():
         5: ["1", "2", "Fizz", "4", "Buzz"],
         8: ["1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8"],
         15: [
-            "1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8",
-            "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz"
-        ]
+            "1",
+            "2",
+            "Fizz",
+            "4",
+            "Buzz",
+            "Fizz",
+            "7",
+            "8",
+            "Fizz",
+            "Buzz",
+            "11",
+            "Fizz",
+            "13",
+            "14",
+            "FizzBuzz",
+        ],
     }

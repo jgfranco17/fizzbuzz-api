@@ -11,10 +11,10 @@
 
 ## 📝 Table of Contents
 
-* [About](#about)
-* [Getting Started](#getting_started)
-* [Usage](#usage)
-* [Authors](#authors)
+- [About](#about)
+- [Getting Started](#getting_started)
+- [Usage](#usage)
+- [Authors](#authors)
 
 ## 🔎 About <a name = "about"></a>
 
@@ -30,8 +30,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 Before running the FizzBuzz Microservice API, make sure you have the following prerequisites installed:
 
-* Python 3.8 or above
-* pip package manager
+- Python 3.8 or above
+- pip package manager
 
 ### Installing
 
@@ -101,4 +101,4 @@ curl http://localhost:<PORT>/fizzbuzz?number=<number>
 
 ## ✒️ Authors <a name = "authors"></a>
 
-* [Chino Franco](https://github.com/jgfranco17) 
+- [Chino Franco](https://github.com/jgfranco17)

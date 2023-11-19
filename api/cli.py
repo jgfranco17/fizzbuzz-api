@@ -3,9 +3,11 @@ CLI interface for API.
 """
 import io
 import os
+
 import uvicorn
-from .utils import load_args
+
 from .server import create_server
+from .utils import load_args
 
 
 def main():
@@ -15,6 +17,7 @@ def main():
 
     This is the program's entry point.
     """
+
     def read(*paths, **kwargs):
         """
         Read the contents of a text file safely.
@@ -38,6 +41,6 @@ ___________.__               __________                          _____ _________
     app = create_server()
     config = load_args()
     version = read("VERSION")
-    print(f'Running FizzBuzz API v{version}')
+    print(f"Running FizzBuzz API v{version}")
     print(header)
     uvicorn.run(app, host="0.0.0.0", port=config.port)

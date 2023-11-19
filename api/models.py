@@ -27,5 +27,5 @@ def get_data_summary(sequence: FizzBuzzSequence):
         "buzz": sequence.buzz,
         "fizzbuzz": sequence.fizzbuzz,
         "digits": sequence.digits,
-        "sequence": sequence.data
+        "sequence": sequence.data,
     }

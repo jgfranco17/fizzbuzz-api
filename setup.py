@@ -3,6 +3,7 @@ Python setup.py for API package
 """
 import io
 import os
+
 from setuptools import find_packages, setup
 
 
@@ -45,7 +46,5 @@ setup(
     ],
     packages=find_packages(exclude=["tests", ".github"]),
     install_requires=read_requirements("requirements.txt"),
-    entry_points={
-        "console_scripts": ["fizzbuzz-api= api.__main__:main"]
-    }
+    entry_points={"console_scripts": ["fizzbuzz-api= api.__main__:main"]},
 )

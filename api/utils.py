@@ -15,10 +15,12 @@ def load_args() -> argparse.Namespace:
     """
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--port", "-p",
-        type=int, required=False,
+        "--port",
+        "-p",
+        type=int,
+        required=False,
         help="Port to connect to",
-        default=5500
+        default=5500,
     )
     args = parser.parse_args()
     return args

@@ -1,6 +1,8 @@
 """
 FIZZBUZZ MODULE
 """
+
+
 def is_divisible_by(num: int, divisor: int) -> bool:
     """
     Function to unnecessarily complicate the modulo operation.
@@ -50,4 +52,4 @@ def generate_fizzbuzz_sequence(limit: int) -> list:
     Returns:
         list: Resulting FizzBuzz outputs
     """
-    return [fizzbuzz(i) for i in range(1, limit+1)]
+    return [fizzbuzz(i) for i in range(1, limit + 1)]
