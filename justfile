@@ -5,17 +5,23 @@ default:
 # Execute installation
 setup:
 	@echo "Setting up project."
-	@pip3 install --upgrade setuptools
+	pip3 install --upgrade setuptools
 	@echo "Installing testing dependencies."
-	@pip3 install -r requirements-test.txt
+	pip3 install -r requirements-test.txt
 	@echo "Setting up project requirements."
-	@pip3 install -r requirements.txt
+	pip3 install -r requirements.txt
 	@echo "Project setup complete!"
 
 # Launch API
 run:
 	@echo "Running main app..."
 	@python3 app.py --port 8080
+
+# Build Docker image
+build-docker:
+	@echo "Building docker image..."
+	docker build -t fizzbuzz-api:latest -f ./Dockerfile .
+	@echo "Docker image built successfully!"
 
 # Run pep8, black, mypy linters
 lint:
