@@ -3,7 +3,7 @@
   "description": "FastAPI-based microservice that solves the classic FizzBuzz problem via HTTP API",
   "repositoryUrl": "https://github.com/jgfranco17/fizzbuzz-api",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "languages": ["Python"],
   "frameworks": ["FastAPI", "Behave"],
   "authors": [
