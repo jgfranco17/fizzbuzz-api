@@ -19,7 +19,7 @@ def main():
     This is the program's entry point.
     """
 
-    def get_json_key(*paths, **kwargs):
+    def get_json_key(*paths, **kwargs) -> str:
         """
         Read the contents of a JSON key safely.
         """
@@ -42,5 +42,6 @@ ___________.__               __________                          _____ _________
     version = get_json_key("specs.json", key="version")
     host = "0.0.0.0" if config.debug else "127.0.0.1"
     print(f"Running FizzBuzz API v{version}")
+    print(f"Debug mode: {config.debug}")
     print(header)
     uvicorn.run(app, host=host, port=config.port)
