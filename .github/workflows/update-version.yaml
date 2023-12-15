@@ -1,0 +1,22 @@
+name: Update Project Version
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update_version:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install jq
+        run: sudo apt-get -y install jq
+
+      - name: Update Version
+        run: bash .github/workflows/versioning.sh
