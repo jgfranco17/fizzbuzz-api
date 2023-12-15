@@ -1,5 +1,4 @@
 from behave import given, then, when
-from fastapi import HTTPException
 
 
 def __parse_keyword(keyword: str):
