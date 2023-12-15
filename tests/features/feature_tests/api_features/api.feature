@@ -15,4 +15,4 @@ Feature: API Testing
     Scenario: Invalid input raises error
         Given I send a request to "/fizzbuzz?number=0"
         Then the response is returned with status code 400
-        And an error is raised with "number must a positive integer"
+        And an error is raised with "number must a positive integer" in message

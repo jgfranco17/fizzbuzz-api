@@ -2,8 +2,7 @@ from http import HTTPStatus
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException
-from fastapi.exceptions import RequestValidationError
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import JSONResponse
 
 from .computation import generate_fizzbuzz_sequence
 from .models import FizzBuzzSequence
@@ -22,7 +21,7 @@ def create_server() -> FastAPI:
     def root():
         return {"message": "Welcome to the FizzBuzz API!"}
 
-    @app.get("/fizzbuzz", status_code=HTTPStatus.OK)
+    @app.get("/fizzbuzz")
     def compute(number: Optional[int] = None):
         response = {"message": "Invalid input"}
         try:
@@ -50,15 +49,18 @@ def create_server() -> FastAPI:
 
         except HTTPException as http_err:
             print(f"Invalid input: {http_err.detail}")
-            return {
-                "status": http_err.status_code,
-                "message": f"Invalid input, {http_err.detail}",
-            }
+            raise HTTPException(
+                status_code=http_err.status_code,
+                detail=f"Invalid input - {http_err.detail}",
+            )
 
         return response
 
-    @app.exception_handler(RequestValidationError)
-    async def validation_exception_handler(request, exc):
-        return PlainTextResponse(str(exc), status_code=400)
+    @app.exception_handler(HTTPException)
+    async def http_exception_handler(request, exc):
+        return JSONResponse(
+            status_code=exc.status_code,
+            content={"message": f"Invalid input, {exc.detail}"},
+        )
 
     return app

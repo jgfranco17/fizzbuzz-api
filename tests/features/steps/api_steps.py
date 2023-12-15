@@ -26,7 +26,7 @@ def step_evaluate_response_message(context, message: str):
 
 
 @then('the sequence contains {count:d} instances of "{word:S}"')
-def step_evaluate_response_message(context, count: int, word: str):
+def step_check_count(context, count: int, word: str):
     key = __parse_keyword(word)
     instance_count = context.response.json()[key]
     assert (
@@ -34,7 +34,7 @@ def step_evaluate_response_message(context, count: int, word: str):
     ), f"Expected {count} instances of '{word}' but only found {instance_count}"
 
 
-@then('an error is raised with "{message:S}"')
-def step_error_is_raised(context, message: str):
-    error_output = context.response.detail
-    assert message in error_output, f"Unexpected error: {error_output}"
+@then('an error is raised with "{message}" in message')
+def step_check_error_output(context, message):
+    response = context.response.json()["message"]
+    assert message in response, f"Unexpected error message: {message}"
