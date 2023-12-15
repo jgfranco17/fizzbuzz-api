@@ -2,7 +2,7 @@ import pytest
 import requests
 
 from api.computation import generate_fizzbuzz_sequence
-from api.models import FizzBuzzSequence, get_data_summary
+from api.models import FizzBuzzSequence
 
 
 def test_internet_connectivity():
@@ -89,5 +89,5 @@ def test_get_data_summary():
         "sequence": ["1", "2", "Fizz", "Buzz", "FizzBuzz"],
     }
 
-    summary = get_data_summary(fizzbuzz_sequence)
+    summary = fizzbuzz_sequence.get_data_summary()
     assert summary == expected_summary

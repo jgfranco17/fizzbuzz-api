@@ -34,7 +34,7 @@ def step_evaluate_response_message(context, count: int, word: str):
     ), f"Expected {count} instances of '{word}' but only found {instance_count}"
 
 
-@then('an error is raised with with "{message:S}"')
+@then('an error is raised with "{message:S}"')
 def step_error_is_raised(context, message: str):
-    response = context.response.json()
-    assert message in response["message"], f"Unexpected error message: {message}"
+    error_output = context.response.detail
+    assert message in error_output, f"Unexpected error: {error_output}"

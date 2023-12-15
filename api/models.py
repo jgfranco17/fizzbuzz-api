@@ -19,13 +19,12 @@ class FizzBuzzSequence:
         self.fizzbuzz = self.data.count("FizzBuzz")
         self.digits = len(self.data) - (self.fizz + self.buzz + self.fizzbuzz)
 
-
-def get_data_summary(sequence: FizzBuzzSequence):
-    return {
-        "count": len(sequence),
-        "fizz": sequence.fizz,
-        "buzz": sequence.buzz,
-        "fizzbuzz": sequence.fizzbuzz,
-        "digits": sequence.digits,
-        "sequence": sequence.data,
-    }
+    def get_data_summary(self):
+        return {
+            "count": len(self),
+            "fizz": self.fizz,
+            "buzz": self.buzz,
+            "fizzbuzz": self.fizzbuzz,
+            "digits": self.digits,
+            "sequence": self.data,
+        }

@@ -6,7 +6,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import PlainTextResponse
 
 from .computation import generate_fizzbuzz_sequence
-from .models import FizzBuzzSequence, get_data_summary
+from .models import FizzBuzzSequence
 
 
 def create_server() -> FastAPI:
@@ -18,7 +18,7 @@ def create_server() -> FastAPI:
     """
     app = FastAPI()
 
-    @app.get("/")
+    @app.get("/", status_code=HTTPStatus.OK)
     def root():
         return {"message": "Welcome to the FizzBuzz API!"}
 
@@ -46,7 +46,7 @@ def create_server() -> FastAPI:
 
             raw_output = generate_fizzbuzz_sequence(number)
             output_summary = FizzBuzzSequence(raw_output)
-            response = get_data_summary(output_summary)
+            response = output_summary.get_data_summary()
 
         except HTTPException as http_err:
             print(f"Invalid input: {http_err.detail}")
