@@ -40,6 +40,7 @@ ___________.__               __________                          _____ _________
     app = create_server()
     config = load_args()
     version = get_json_key("specs.json", key="version")
+    host = "0.0.0.0" if config.debug else "127.0.0.1"
     print(f"Running FizzBuzz API v{version}")
     print(header)
-    uvicorn.run(app, host="0.0.0.0", port=config.port)
+    uvicorn.run(app, host=host, port=config.port)

@@ -12,8 +12,13 @@ setup:
 	pip3 install -r requirements.txt
 	@echo "Project setup complete!"
 
-# Launch API
-run:
+# Launch API in debug mode
+run-debug:
+	@echo "Running main app..."
+	@python3 app.py --port 8080 --debug
+
+# Launch API in production mode
+run-prod:
 	@echo "Running main app..."
 	@python3 app.py --port 8080
 
