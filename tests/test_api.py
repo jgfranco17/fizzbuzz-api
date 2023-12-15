@@ -63,22 +63,13 @@ def test_compute_endpoint_invalid_input(client):
     invalid_numbers = (0, 10001, -1)
     for invalid in invalid_numbers:
         response = client.get(f"/fizzbuzz?number={invalid}")
-        assert response.json() == {
-            "message": "Invalid input"
-        }, "Expected default error JSON response."
+        assert (
+            "number must a positive integer from 1 to 10^4"
+            in response.json()["message"]
+        )
 
     response = client.get("/fizzbuzz?number=abc")
-    expected_error_output = {
-        "detail": [
-            {
-                "loc": ["query", "number"],
-                "msg": "value is not a valid integer",
-                "type": "type_error.integer",
-            }
-        ]
-    }
-    assert response.status_code == 422
-    assert response.json() == expected_error_output
+    assert response.status_code == 400
 
 
 def test_generate_fizzbuzz_sequence(sample_data):

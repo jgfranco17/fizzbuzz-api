@@ -32,28 +32,29 @@ lint:
 
 # Clean unused files
 clean:
-	@find ./ -name '*.pyc' -exec rm -f {} \;
-	@find ./ -name '__pycache__' -exec rm -rf {} \;
-	@find ./ -name 'Thumbs.db' -exec rm -f {} \;
-	@find ./ -name '*~' -exec rm -f {} \;
-	@rm -rf .cache
-	@rm -rf .mypy_cache
-	@rm -rf build
-	@rm -rf dist
-	@rm -rf *.egg-info
-	@rm -rf htmlcov
-	@rm -rf .tox/
-	@rm -rf docs/_build
-	@rm -rf .venv
+	-@find ./ -name '*.pyc' -exec rm -f {} \;
+	-@find ./ -name '__pycache__' -exec rm -rf {} \;
+	-@find ./ -name 'Thumbs.db' -exec rm -f {} \;
+	-@find ./ -name '*~' -exec rm -f {} \;
+	-@rm -rf .pytest_cache
+	-@rm -rf .cache
+	-@rm -rf .mypy_cache
+	-@rm -rf build
+	-@rm -rf dist
+	-@rm -rf *.egg-info
+	-@rm -rf htmlcov
+	-@rm -rf .tox/
+	-@rm -rf docs/_build
+	-@rm -rf .venv
 	@echo "Cleaned out unused files and directories!"
 
 # Run PyTest unit tests
-test:
+pytest:
 	@echo "Running unittest suite..."
 	pytest -vv -rA
-	@echo "Cleaning up test environment"
-	@find ./ -name '__pycache__' -exec rm -rf {} \;
-	@rm -rf .pytest_cache
+	-@find ./ -name '__pycache__' -exec rm -rf {} \;
+	-@rm -rf .pytest_cache
+	@echo "Cleaned up test environment"
 
 # Run Behave feature tests
 behave:
