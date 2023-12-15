@@ -2,6 +2,7 @@
 CLI interface for API.
 """
 import io
+import json
 import os
 
 import uvicorn
@@ -18,17 +19,15 @@ def main():
     This is the program's entry point.
     """
 
-    def read(*paths, **kwargs):
+    def get_json_key(*paths, **kwargs):
         """
-        Read the contents of a text file safely.
+        Read the contents of a JSON key safely.
         """
-        content = ""
-        with io.open(
-            os.path.join(os.path.dirname(__file__), *paths),
-            encoding=kwargs.get("encoding", "utf8"),
-        ) as file:
-            content = file.read().strip()
-        return content
+        filepath = os.path.join(os.path.dirname(__file__), *paths)
+        with open(filepath, "r") as file:
+            data = dict(json.load(file))
+        key = kwargs.get("key", "version")
+        return data.get(key, "none")
 
     header = r"""
 ___________.__               __________                          _____ __________.___
@@ -40,7 +39,7 @@ ___________.__               __________                          _____ _________
     """
     app = create_server()
     config = load_args()
-    version = read("VERSION")
+    version = get_json_key("specs.json", key="version")
     print(f"Running FizzBuzz API v{version}")
     print(header)
     uvicorn.run(app, host="0.0.0.0", port=config.port)

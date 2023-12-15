@@ -7,7 +7,7 @@ file_path="../../api/specs.json"
 data=$(cat "$file_path")
 
 # Extract version and lastUpdatedOn values
-version=$(cat "api/VERSION")
+version=$(cat "api/specs.json" | jq .version)
 lastUpdatedOn=$(jq -r '.lastUpdatedOn' <<< "$data")
 
 # Increment version

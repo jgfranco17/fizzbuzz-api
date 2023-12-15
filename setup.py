@@ -2,6 +2,7 @@
 Python setup.py for API package
 """
 import io
+import json
 import os
 
 from setuptools import find_packages, setup
@@ -20,6 +21,17 @@ def read(*paths, **kwargs):
     return content
 
 
+def get_json_key(*paths, **kwargs):
+    """
+    Read the contents of a JSON key safely.
+    """
+    filepath = os.path.join(os.path.dirname(__file__), *paths)
+    with open(filepath, "r") as file:
+        data = dict(json.load(file))
+    key = kwargs.get("key", "version")
+    return data.get(key, "none")
+
+
 def read_requirements(path):
     """
     Read the dependencies as a list from the file.
@@ -33,9 +45,9 @@ def read_requirements(path):
 
 setup(
     name="fizzbuzz-api",
-    version=read("api", "VERSION"),
-    description="API deployment of the classic fizzbuzz",
-    url="https://github.com/jgfranco17/fizzbuzz-api/",
+    version=get_json_key("api", "specs.json", key="version"),
+    description=get_json_key("api", "specs.json", key="description"),
+    url=get_json_key("api", "specs.json", key="repositoryUrl"),
     license="MIT",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
