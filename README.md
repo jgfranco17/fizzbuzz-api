@@ -14,6 +14,7 @@
 - [About](#about)
 - [Getting Started](#getting_started)
 - [Usage](#usage)
+- [Testing](#testing)
 - [Authors](#authors)
 
 ## 🔎 About <a name = "about"></a>
@@ -82,7 +83,7 @@ docker build -t fizzbuzz-api .
 docker run -p 5050:5050 fizzbuzz-api
 
 # Docker-Compose build
-docker-compose up
+docker compose up
 ```
 
 The Docker image is also available on [Docker Hub](https://hub.docker.com/r/jgfranco17/fizzbuzz-api)
@@ -91,13 +92,60 @@ The Docker image is also available on [Docker Hub](https://hub.docker.com/r/jgfr
 docker pull jgfranco17/fizzbuzz-api:latest
 ```
 
-## 🌐 Calling the API
+### Calling the API
 
 Once the microservice is launched, the API is now reachable. To get a FizzBuzz sequence, simply send a `GET` request to the server, with the number as a parameter.
 
 ```bash
 curl http://localhost:<PORT>/fizzbuzz?number=<number>
 ```
+
+## 🔧 Testing <a name = "testing"></a>
+
+### Running unittest suite
+
+In order to run diagnostics and unittests, first install the testing dependencies. This will allow you to utilize the full capacity of the test modules we have built.
+
+```bash
+pip install -r requirements-test.txt
+```
+
+To run the full test suite, run the Justfile command as follows:
+
+```bash
+just pytest
+```
+
+### Using PyTest
+
+You can run these tests using the [PyTest](https://docs.pytest.org/en/7.3.x/) CLI tool. To run all tests in the directory containing the test files, navigate to the directory and enter `pytest` in the command line; for added verbosity, add the `-vv` flag after. To run a specific test file, enter `pytest <filename>`.
+
+```bash
+# Run all tests in the testing module with verbose detail
+pytest -vv
+
+# Or, run a specific test file
+cd ./tests
+pytest -v <filename>.py
+```
+
+This will run the specified test module and generates a detailed result report in the terminal.
+
+### Running Behave suite
+
+Behave is a Python-based BDD framework that allows you to write tests in a natural language style using Gherkin syntax. Gherkin uses a simple, human-readable format that is easy for both technical and non-technical stakeholders to understand. Behave translates these plain-text scenarios into executable code, allowing teams to collaborate on defining and implementing software features.
+
+To run the full Behave suite, run the Justfile command as follows:
+
+```bash
+just behave
+```
+
+This will run the specified test module and generates a detailed result report in the terminal.
+
+### Why BDD?
+
+Behavior-Driven Development (BDD) is a software development methodology that focuses on collaboration among developers, QA, and non-technical stakeholders. BDD aims to enhance communication and understanding by using natural language descriptions of software behaviors and features. BDD allows teams to define the expected behavior of the software before implementation; clear specifications help developers focus on delivering features that meet business requirements. Non-technical team members can also easily understand and contribute to the specification process.
 
 ## ✒️ Authors <a name = "authors"></a>
 
