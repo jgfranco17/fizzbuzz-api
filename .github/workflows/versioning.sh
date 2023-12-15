@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Assuming the JSON file is in a neighboring directory named 'data'
-file_path="../../specs.json"
+file_path="../../api/specs.json"
 
 # Read JSON data from the file
 data=$(cat "$file_path")

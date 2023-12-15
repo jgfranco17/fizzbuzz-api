@@ -1,3 +1,5 @@
+import json
+import os
 from http import HTTPStatus
 from typing import Optional
 
@@ -20,6 +22,13 @@ def create_server() -> FastAPI:
     @app.get("/", status_code=HTTPStatus.OK)
     def root():
         return {"message": "Welcome to the FizzBuzz API!"}
+
+    @app.get("/about", status_code=HTTPStatus.OK)
+    def root():
+        filepath = os.path.join(os.path.dirname(__file__), "specs.json")
+        with open(filepath, "r") as file:
+            data = json.load(file)
+        return data
 
     @app.get("/fizzbuzz")
     def compute(number: Optional[int] = None):
