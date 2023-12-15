@@ -54,3 +54,8 @@ test:
 	@echo "Cleaning up test environment"
 	@find ./ -name '__pycache__' -exec rm -rf {} \;
 	@rm -rf .pytest_cache
+
+# Run Behave feature tests
+behave:
+	@echo "Running feature test suite..."
+	behave ./tests/features/feature_tests/api_features
