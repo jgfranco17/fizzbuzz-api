@@ -1,2 +1,4 @@
 fastapi
+httpx
+poetry
 uvicorn
