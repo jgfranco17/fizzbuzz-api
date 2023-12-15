@@ -1,4 +1,5 @@
 from behave import given, then, when
+from fastapi import HTTPException
 
 
 def __parse_keyword(keyword: str):
@@ -31,3 +32,9 @@ def step_evaluate_response_message(context, count: int, word: str):
     assert (
         instance_count == count
     ), f"Expected {count} instances of '{word}' but only found {instance_count}"
+
+
+@then('an error is raised with with "{message:S}"')
+def step_error_is_raised(context, message: str):
+    response = context.response.json()
+    assert message in response["message"], f"Unexpected error message: {message}"
