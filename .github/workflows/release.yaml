@@ -1,0 +1,44 @@
+name: Release on File Update
+
+on:
+  push:
+    paths:
+      - "api/VERSION" # Specify the path to the file that triggers the release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+      - name: Check if file is modified
+        id: file_changed
+        run: echo "::set-output name=changed::$(git diff --name-only ${{ github.sha }} ${{ github.sha }}^)"
+
+      - name: Create Release
+        if: steps.file_changed.outputs.changed == 'api/VERSION'
+        run: |
+          tag_name=$(date +'%Y%m%d%H%M%S')
+          release_notes="Release notes for version $tag_name"
+          echo "Creating release $tag_name"
+          echo "::set-output name=tag_name::$tag_name"
+          echo "::set-output name=release_notes::$release_notes"
+
+      - name: Publish Release
+        if: steps.file_changed.outputs.changed == 'api/VERSION'
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.create_release.outputs.tag_name }}
+          release_name: Release ${{ steps.create_release.outputs.tag_name }}
+          body: ${{ steps.create_release.outputs.release_notes }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
