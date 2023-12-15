@@ -69,7 +69,7 @@ def test_compute_endpoint_invalid_input(client):
         )
 
     response = client.get("/fizzbuzz?number=abc")
-    assert response.status_code == 400
+    assert response.status_code == 422
 
 
 def test_generate_fizzbuzz_sequence(sample_data):

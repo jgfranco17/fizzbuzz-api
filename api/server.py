@@ -33,13 +33,13 @@ def create_server() -> FastAPI:
 
             if not 1 <= number <= 10**4:
                 raise HTTPException(
-                    status_code=HTTPStatus.BAD_REQUEST,
+                    status_code=HTTPStatus.UNPROCESSABLE_ENTITY,
                     detail="number must a positive integer from 1 to 10^4, inclusive.",
                 )
 
             if not isinstance(number, int):
                 raise HTTPException(
-                    status_code=HTTPStatus.BAD_REQUEST,
+                    status_code=HTTPStatus.UNPROCESSABLE_ENTITY,
                     detail=f" {number} is not integer.",
                 )
 
