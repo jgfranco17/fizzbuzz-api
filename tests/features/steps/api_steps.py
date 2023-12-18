@@ -1,4 +1,5 @@
 from behave import given, then, when
+from fastapi import FastAPI
 
 
 def __parse_keyword(keyword: str):
@@ -6,6 +7,12 @@ def __parse_keyword(keyword: str):
     if keyword not in ("fizz", "buzz", "fizzbuzz"):
         raise ValueError(f"Invalid keyword")
     return keyword
+
+
+@given("I start the API")
+def step_prelaunch_checks(context):
+    assert context.setup_complete, "Setup was not successful."
+    assert context.response is None, "Response was not reset to None."
 
 
 @given('I send a request to "{endpoint:S}"')
@@ -33,7 +40,7 @@ def step_check_count(context, count: int, word: str):
     ), f"Expected {count} instances of '{word}' but only found {instance_count}"
 
 
-@then('an error is raised with "{message}" in message')
-def step_check_error_output(context, message):
-    response = context.response.json()["message"]
-    assert message in response, f"Unexpected error message: {message}"
+@then('an error is raised with "{message}" in "{key:S}"')
+def step_check_error_output(context, message, key):
+    response = context.response.json()[key]
+    assert message in response, f"Unexpected error message in '{key}': {message}"
