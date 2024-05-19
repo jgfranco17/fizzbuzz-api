@@ -2,4 +2,5 @@ fastapi
 httpx
 poetry
 pydantic
+pydantic[email]
 uvicorn

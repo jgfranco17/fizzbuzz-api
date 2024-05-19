@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class FizzBuzzSequence(BaseModel):
@@ -33,6 +33,7 @@ def create_model_from_sequence(data: List[str]) -> FizzBuzzSequence:
 class ProjectAuthor(BaseModel):
     name: str
     github_username: str
+    email: EmailStr
 
 
 class ServiceInfo(BaseModel):
