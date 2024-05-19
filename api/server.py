@@ -3,6 +3,7 @@ from http import HTTPStatus
 from typing import List, Optional, Tuple
 
 from fastapi import APIRouter, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .computation import generate_fizzbuzz_sequence
@@ -122,5 +123,13 @@ def create_server() -> FastAPI:
     for router in main_routes:
         app.include_router(router)
         print(f"Registered group: {router.prefix}")
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # Adjust this to restrict origins
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     return app
