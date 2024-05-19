@@ -42,7 +42,7 @@ class ServiceInfo(BaseModel):
     repository_url: str
     license: str
     version: str
-    language: List[str]
+    languages: List[str]
     frameworks: List[str]
     authors: List[ProjectAuthor]
     last_updated_on: str

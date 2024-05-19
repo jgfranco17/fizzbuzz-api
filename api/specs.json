@@ -4,7 +4,7 @@
   "repository_url": "https://github.com/jgfranco17/fizzbuzz-api",
   "license": "MIT",
   "version": "1.1.0",
-  "languages": ["Python"],
+  "languages": ["Python", "Gherkin"],
   "frameworks": ["FastAPI", "Behave"],
   "authors": [
     {

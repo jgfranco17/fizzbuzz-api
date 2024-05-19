@@ -65,3 +65,7 @@ pytest:
 behave:
 	@echo "Running feature test suite..."
 	behave ./tests/features/feature_tests/api_features
+
+smoke-tests:
+	@echo "Running smoke test suite..."
+	python3 smoketests.py
