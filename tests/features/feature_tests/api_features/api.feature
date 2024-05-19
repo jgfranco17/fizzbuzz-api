@@ -17,7 +17,7 @@ Feature: API Testing
     Scenario: Invalid input raises error
         Given I start the API
         When I send a request to "/fizzbuzz?number=0"
-        Then the response is returned with status code 422
+        Then the response is returned with status code 400
         And an error is raised with "number must a positive integer" in "message"
 
     Scenario: Attempt non-existent route

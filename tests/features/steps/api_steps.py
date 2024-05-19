@@ -22,7 +22,9 @@ def step_get_request(context, endpoint: str):
 
 @then("the response is returned with status code {status_code:d}")
 def step_evaluate_request_status(context, status_code: int):
-    assert context.response.status_code == status_code
+    assert (
+        context.response.status_code == status_code
+    ), f"Expected status code {status_code} but got {context.response.status_code}"
 
 
 @then('the response JSON contains "{message:S}" in keys')

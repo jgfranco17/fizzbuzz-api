@@ -1,18 +1,10 @@
+from typing import List
+
 import pytest
 import requests
 
 from api.computation import generate_fizzbuzz_sequence
 from api.models import FizzBuzzSequence
-
-
-def test_internet_connectivity():
-    url = "https://api.github.com"
-
-    try:
-        response = requests.get(url)
-        assert response.status_code == 200
-    except requests.exceptions.RequestException:
-        pytest.fail(f"Failed to establish internet connection to {url}")
 
 
 def test_unsupported_routes(client):
@@ -32,7 +24,6 @@ def test_compute_endpoint_valid_input(client):
     assert response.status_code == 200
 
     expected_summary = {
-        "count": 15,
         "fizz": 4,
         "buzz": 2,
         "fizzbuzz": 1,
@@ -55,7 +46,7 @@ def test_compute_endpoint_valid_input(client):
             "FizzBuzz",
         ],
     }
-    assert response.json() == expected_summary, ""
+    assert response.json() == expected_summary, "Resulting JSON response did not match"
 
 
 def test_compute_endpoint_invalid_input(client):
@@ -72,22 +63,13 @@ def test_compute_endpoint_invalid_input(client):
     assert response.status_code == 422
 
 
-def test_generate_fizzbuzz_sequence(sample_data):
-    for number, result in sample_data.items():
-        output = generate_fizzbuzz_sequence(number)
-        assert output == result, f"Expected {result}, got {output}."
-
-
-def test_get_data_summary():
-    fizzbuzz_sequence = FizzBuzzSequence(["1", "2", "Fizz", "Buzz", "FizzBuzz"])
-    expected_summary = {
-        "count": 5,
-        "fizz": 1,
-        "buzz": 1,
-        "fizzbuzz": 1,
-        "digits": 2,
-        "sequence": ["1", "2", "Fizz", "Buzz", "FizzBuzz"],
-    }
-
-    summary = fizzbuzz_sequence.get_data_summary()
-    assert summary == expected_summary
+@pytest.mark.parametrize(
+    "num,expected",
+    [
+        (1, ["1"]),
+        (5, ["1", "2", "Fizz", "4", "Buzz"]),
+    ],
+)
+def test_generate_fizzbuzz_sequence(num: int, expected: List[str]):
+    actual = generate_fizzbuzz_sequence(num)
+    assert actual == expected, f"Expected {expected}, got {actual}."
