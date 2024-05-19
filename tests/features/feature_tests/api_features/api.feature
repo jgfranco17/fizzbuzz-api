@@ -8,7 +8,7 @@ Feature: API Testing
 
     Scenario: Access numeric endpoint
         Given I start the API
-        When I send a request to "/fizzbuzz?number=15"
+        When I send a request to "/v0/fizzbuzz?number=15"
         Then the response is returned with status code 200
         And the sequence contains 4 instances of "fizz"
         And the sequence contains 2 instances of "buzz"
@@ -16,7 +16,7 @@ Feature: API Testing
 
     Scenario: Invalid input raises error
         Given I start the API
-        When I send a request to "/fizzbuzz?number=0"
+        When I send a request to "/v0/fizzbuzz?number=0"
         Then the response is returned with status code 400
         And an error is raised with "number must a positive integer" in "message"
 

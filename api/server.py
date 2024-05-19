@@ -1,54 +1,24 @@
 """Main server creation setup."""
 from http import HTTPStatus
-from typing import Optional
+from typing import List, Optional, Tuple
 
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
 from .computation import generate_fizzbuzz_sequence
-from .models import FizzBuzzSequence, ServiceInfo, create_model_from_sequence
+from .models import (
+    FizzBuzzSequence,
+    HealthCheck,
+    ServiceInfo,
+    create_model_from_sequence,
+)
 from .utils import read_specs
 
 
-def create_server() -> FastAPI:
-    """
-    Creates an instance of the API app.
+def __set_v0_routes() -> APIRouter:
+    router_v0 = APIRouter(prefix="/v0", tags=["FIZZBUZZ"])
 
-    Returns:
-        FastAPI: API app unit
-    """
-    specs = read_specs("specs.json")
-    app = FastAPI(
-        title="Fizzbuzz API",
-        summary="FizzBuzz-as-a-Service",
-        description=specs["description"],
-        version=specs["version"],
-        contact={
-            "name": "Chino Franco",
-            "email": "chino.franco@gmail.com",
-        },
-    )
-
-    @app.get("/", status_code=HTTPStatus.OK)
-    def root():
-        return {"message": "Welcome to the FizzBuzz API!"}
-
-    @app.get("/healthz", status_code=HTTPStatus.OK)
-    def root():
-        return {"status": "healthy"}
-
-    @app.get("/service-info", status_code=HTTPStatus.OK)
-    def get_service_info() -> ServiceInfo:
-        """
-        Display the FizzBuzz API project information.
-
-        Returns:
-            ServiceInfo: Summary of project details
-        """
-        specs = read_specs("specs.json")
-        return ServiceInfo(**specs)
-
-    @app.get("/fizzbuzz")
+    @router_v0.get("/fizzbuzz")
     def compute(number: Optional[int] = None) -> FizzBuzzSequence:
         """
         Compute the fizzbuzz sequence until the given number.
@@ -92,11 +62,65 @@ def create_server() -> FastAPI:
         output = create_model_from_sequence(raw_output)
         return output
 
+    return router_v0
+
+
+def create_server() -> FastAPI:
+    """
+    Creates an instance of the API app.
+
+    Returns:
+        FastAPI: API app unit
+    """
+    specs = read_specs("specs.json")
+    app = FastAPI(
+        title="Fizzbuzz API",
+        summary="FizzBuzz-as-a-Service",
+        description=specs["description"],
+        version=specs["version"],
+        contact={
+            "name": "Chino Franco",
+            "email": "chino.franco@gmail.com",
+        },
+    )
+
+    @app.get("/", status_code=HTTPStatus.OK, tags=["SYSTEM"])
+    def root():
+        return {"message": "Welcome to the FizzBuzz API!"}
+
+    @app.get("/healthz", status_code=HTTPStatus.OK, tags=["SYSTEM"])
+    def health_check() -> HealthCheck:
+        """
+        Health check for the API.
+
+        Returns:
+            HealthCheck: API status
+        """
+        return HealthCheck(status="healthy")
+
+    @app.get("/service-info", status_code=HTTPStatus.OK, tags=["SYSTEM"])
+    def get_service_info() -> ServiceInfo:
+        """
+        Display the FizzBuzz API project information.
+
+        Returns:
+            ServiceInfo: Summary of project details
+        """
+        specs = read_specs("specs.json")
+        return ServiceInfo(**specs)
+
     @app.exception_handler(HTTPException)
     async def http_exception_handler(request, exc):
         return JSONResponse(
             status_code=exc.status_code,
             content={"status": exc.status_code, "message": exc.detail},
         )
+
+    main_routes = [
+        __set_v0_routes(),
+    ]
+    for router in main_routes:
+        app.include_router(router)
+        print(f"Registered group: {router.prefix}")
 
     return app

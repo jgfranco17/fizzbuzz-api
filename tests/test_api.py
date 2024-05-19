@@ -20,7 +20,7 @@ def test_root_endpoint(client):
 
 
 def test_compute_endpoint_valid_input(client):
-    response = client.get("/fizzbuzz?number=15")
+    response = client.get("/v0/fizzbuzz?number=15")
     assert response.status_code == 200
 
     expected_summary = {
@@ -49,18 +49,18 @@ def test_compute_endpoint_valid_input(client):
     assert response.json() == expected_summary, "Resulting JSON response did not match"
 
 
-def test_compute_endpoint_invalid_input(client):
-    # Test numbers outside the allowed range
-    invalid_numbers = (0, 10001, -1)
-    for invalid in invalid_numbers:
-        response = client.get(f"/fizzbuzz?number={invalid}")
-        assert (
-            "number must a positive integer from 1 to 10^4"
-            in response.json()["message"]
-        )
-
-    response = client.get("/fizzbuzz?number=abc")
-    assert response.status_code == 422
+@pytest.mark.parametrize(
+    "value,error",
+    [
+        (0, "number must a positive integer from 1 to 10^4"),
+        (10001, "number must a positive integer from 1 to 10^4"),
+        (-1, "number must a positive integer from 1 to 10^4"),
+    ],
+)
+def test_compute_endpoint_invalid_number(client, value: int, error: str):
+    response = client.get(f"/v0/fizzbuzz?number={value}")
+    assert response.status_code == 400
+    assert error in response.json()["message"]
 
 
 @pytest.mark.parametrize(

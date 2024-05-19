@@ -46,3 +46,7 @@ class ServiceInfo(BaseModel):
     frameworks: List[str]
     authors: List[ProjectAuthor]
     last_updated_on: str
+
+
+class HealthCheck(BaseModel):
+    status: str

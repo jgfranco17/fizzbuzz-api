@@ -1,12 +1,19 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "FastAPI",
-    "version": "0.1.0"
+    "title": "Fizzbuzz API",
+    "summary": "FizzBuzz-as-a-Service",
+    "description": "FastAPI-based microservice that solves the classic FizzBuzz problem via HTTP API",
+    "contact": {
+      "name": "Chino Franco",
+      "email": "chino.franco@gmail.com"
+    },
+    "version": "1.1.0"
   },
   "paths": {
     "/": {
       "get": {
+        "tags": ["SYSTEM"],
         "summary": "Root",
         "operationId": "root__get",
         "responses": {
@@ -21,11 +28,32 @@
         }
       }
     },
+    "/healthz": {
+      "get": {
+        "tags": ["SYSTEM"],
+        "summary": "Health Check",
+        "description": "Health check for the API.",
+        "operationId": "health_check_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthCheck"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/service-info": {
       "get": {
-        "summary": "Root",
+        "tags": ["SYSTEM"],
+        "summary": "Get Service Info",
         "description": "Display the FizzBuzz API project information.",
-        "operationId": "root_service_info_get",
+        "operationId": "get_service_info_service_info_get",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -40,11 +68,11 @@
         }
       }
     },
-    "/fizzbuzz": {
+    "/v0/fizzbuzz": {
       "get": {
+        "tags": ["FIZZBUZZ"],
         "summary": "Compute",
         "description": "Compute the fizzbuzz sequence until the given number.",
-        "operationId": "compute_fizzbuzz_get",
         "parameters": [
           {
             "name": "number",
@@ -134,6 +162,37 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "HealthCheck": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": ["status"],
+        "title": "HealthCheck"
+      },
+      "ProjectAuthor": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "github_username": {
+            "type": "string",
+            "title": "Github Username"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": ["name", "github_username", "email"],
+        "title": "ProjectAuthor"
+      },
       "ServiceInfo": {
         "properties": {
           "project_name": {
@@ -172,10 +231,7 @@
           },
           "authors": {
             "items": {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
+              "$ref": "#/components/schemas/ProjectAuthor"
             },
             "type": "array",
             "title": "Authors"
