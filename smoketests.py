@@ -6,6 +6,7 @@ BASE_URL = "https://fizzbuzz-fastapi.onrender.com"
 def run_smoke_tests():
     cases = [
         (f"{BASE_URL}/", "message", "Welcome to the FizzBuzz API!"),
+        (f"{BASE_URL}/healthz", "status", "healthy"),
         (f"{BASE_URL}/about", "projectName", "fizzbuzz-api"),
         (f"{BASE_URL}/fizzbuzz?number=5", "sequence", ["1", "2", "Fizz", "4", "Buzz"]),
     ]

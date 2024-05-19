@@ -33,6 +33,10 @@ def create_server() -> FastAPI:
     def root():
         return {"message": "Welcome to the FizzBuzz API!"}
 
+    @app.get("/healthz", status_code=HTTPStatus.OK)
+    def root():
+        return {"status": "healthy"}
+
     @app.get("/service-info", status_code=HTTPStatus.OK)
     def get_service_info() -> ServiceInfo:
         """
