@@ -1,7 +1,7 @@
 {
-  "projectName": "fizzbuzz-api",
+  "project_name": "fizzbuzz-api",
   "description": "FastAPI-based microservice that solves the classic FizzBuzz problem via HTTP API",
-  "repositoryUrl": "https://github.com/jgfranco17/fizzbuzz-api",
+  "repository_url": "https://github.com/jgfranco17/fizzbuzz-api",
   "license": "MIT",
   "version": "1.1.0",
   "languages": ["Python"],
@@ -9,8 +9,8 @@
   "authors": [
     {
       "name": "Joaquin Franco",
-      "githubUsername": "jgfranco17"
+      "github_username": "jgfranco17"
     }
   ],
-  "lastUpdatedOn": "2024-05-17"
+  "last_updated_on": "2024-05-17"
 }

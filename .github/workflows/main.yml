@@ -31,6 +31,11 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           if [ -f requirements-test.txt ]; then pip install -r requirements-test.txt; fi
-      - name: Run tests
+      - name: Install Just
+        uses: extractions/setup-just@v2
+      - name: Run Pytest
         run: |
           pytest -vv -rA
+      - name: Run BDD tests
+        run: |
+          just behave

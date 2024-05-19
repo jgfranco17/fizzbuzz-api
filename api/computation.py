@@ -1,6 +1,7 @@
 """
 FIZZBUZZ MODULE
 """
+from typing import List
 
 
 def is_divisible_by(num: int, divisor: int) -> bool:
@@ -42,7 +43,7 @@ def fizzbuzz(n: int) -> str:
     return result.strip() if result else str(n)
 
 
-def generate_fizzbuzz_sequence(limit: int) -> list:
+def generate_fizzbuzz_sequence(limit: int) -> List[str]:
     """
     Creates a list for API output
 

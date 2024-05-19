@@ -1,0 +1,233 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Root",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/service-info": {
+      "get": {
+        "summary": "Root",
+        "description": "Display the FizzBuzz API project information.",
+        "operationId": "root_service_info_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fizzbuzz": {
+      "get": {
+        "summary": "Compute",
+        "description": "Compute the fizzbuzz sequence until the given number.",
+        "operationId": "compute_fizzbuzz_get",
+        "parameters": [
+          {
+            "name": "number",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FizzBuzzSequence"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FizzBuzzSequence": {
+        "properties": {
+          "fizz": {
+            "type": "integer",
+            "title": "Fizz"
+          },
+          "buzz": {
+            "type": "integer",
+            "title": "Buzz"
+          },
+          "fizzbuzz": {
+            "type": "integer",
+            "title": "Fizzbuzz"
+          },
+          "digits": {
+            "type": "integer",
+            "title": "Digits"
+          },
+          "sequence": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sequence"
+          }
+        },
+        "type": "object",
+        "required": ["fizz", "buzz", "fizzbuzz", "digits", "sequence"],
+        "title": "FizzBuzzSequence",
+        "description": "Data class for FizzBuzz sequence data."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ServiceInfo": {
+        "properties": {
+          "project_name": {
+            "type": "string",
+            "title": "Project Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "repository_url": {
+            "type": "string",
+            "title": "Repository Url"
+          },
+          "license": {
+            "type": "string",
+            "title": "License"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "language": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Language"
+          },
+          "frameworks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Frameworks"
+          },
+          "authors": {
+            "items": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Authors"
+          },
+          "last_updated_on": {
+            "type": "string",
+            "title": "Last Updated On"
+          }
+        },
+        "type": "object",
+        "required": [
+          "project_name",
+          "description",
+          "repository_url",
+          "license",
+          "version",
+          "language",
+          "frameworks",
+          "authors",
+          "last_updated_on"
+        ],
+        "title": "ServiceInfo"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

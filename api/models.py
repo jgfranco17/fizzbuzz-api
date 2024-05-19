@@ -1,37 +1,47 @@
-from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable
+from typing import Any, Dict, List
+
+from pydantic import BaseModel
 
 
-@dataclass
-class FizzBuzzSequence:
+class FizzBuzzSequence(BaseModel):
     """Data class for FizzBuzz sequence data."""
 
-    data: Iterable
-    fizz: int = field(init=False)
-    buzz: int = field(init=False)
-    fizzbuzz: int = field(init=False)
-    digits: int = field(init=False)
+    fizz: int
+    buzz: int
+    fizzbuzz: int
+    digits: int
+    sequence: List[str]
 
     def __len__(self) -> int:
         return len(self.data)
 
-    def __post_init__(self):
-        self.fizz = self.data.count("Fizz")
-        self.buzz = self.data.count("Buzz")
-        self.fizzbuzz = self.data.count("FizzBuzz")
-        self.digits = len(self.data) - (self.fizz + self.buzz + self.fizzbuzz)
 
-    def get_data_summary(self) -> Dict[str, Any]:
-        """Output a dictionary of the sequence data.
+def create_model_from_sequence(data: List[str]) -> FizzBuzzSequence:
+    fizz = data.count("Fizz")
+    buzz = data.count("Buzz")
+    fizzbuzz = data.count("FizzBuzz")
+    digits = len(data) - (fizz + buzz + fizzbuzz)
+    return FizzBuzzSequence(
+        fizz=fizz,
+        buzz=buzz,
+        fizzbuzz=fizzbuzz,
+        digits=digits,
+        sequence=data,
+    )
 
-        Returns:
-            Dict[str, Any]: JSON data
-        """
-        return {
-            "count": len(self),
-            "fizz": self.fizz,
-            "buzz": self.buzz,
-            "fizzbuzz": self.fizzbuzz,
-            "digits": self.digits,
-            "sequence": self.data,
-        }
+
+class ProjectAuthor(BaseModel):
+    name: str
+    github_username: str
+
+
+class ServiceInfo(BaseModel):
+    project_name: str
+    description: str
+    repository_url: str
+    license: str
+    version: str
+    language: List[str]
+    frameworks: List[str]
+    authors: List[ProjectAuthor]
+    last_updated_on: str
