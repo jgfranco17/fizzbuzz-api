@@ -61,6 +61,10 @@ pytest:
 	-@rm -rf .pytest_cache
 	@echo "Cleaned up test environment"
 
+coverage:
+    coverage run -m pytest
+    coverage report
+
 # Run Behave feature tests
 behave:
 	@echo "Running feature test suite..."
