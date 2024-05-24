@@ -147,6 +147,19 @@ This will run the specified test module and generates a detailed result report i
 
 Behavior-Driven Development (BDD) is a software development methodology that focuses on collaboration among developers, QA, and non-technical stakeholders. BDD aims to enhance communication and understanding by using natural language descriptions of software behaviors and features. BDD allows teams to define the expected behavior of the software before implementation; clear specifications help developers focus on delivering features that meet business requirements. Non-technical team members can also easily understand and contribute to the specification process.
 
+For example, below is a demonstration of a simple test case for pinging the `/healthz` endpoint.
+
+```gherkin
+Scenario: Access health-check endpoint
+    Given I start the API
+    When I send a request to "/healthz"
+    Then the response is returned with status code 200
+```
+
+Using Gherkin allows us to run simple test cases without diving too deep into the technicals. As long as the test-writer is
+familiarized with the basic test steps that can be used, there is no need to use more complex testing frameworks for routine
+tests. Feel free to write your own Gherkin steps for this project!
+
 ## ✒️ Authors <a name = "authors"></a>
 
 - [Chino Franco](https://github.com/jgfranco17)
