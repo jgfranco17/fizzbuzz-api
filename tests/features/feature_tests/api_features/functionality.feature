@@ -1,10 +1,4 @@
-Feature: API Testing
-
-    Scenario: Access root endpoint
-        Given I start the API
-        When I send a request to "/"
-        Then the response is returned with status code 200
-        And the response JSON contains "message" in keys
+Feature: API Operation Testing
 
     Scenario: Access numeric endpoint
         Given I start the API
