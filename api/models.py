@@ -45,7 +45,7 @@ class ServiceInfo(BaseModel):
     languages: List[str]
     frameworks: List[str]
     authors: List[ProjectAuthor]
-    last_updated_on: str
+    seconds_since_start: float
 
 
 class HealthCheck(BaseModel):

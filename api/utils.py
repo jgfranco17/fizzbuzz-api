@@ -36,4 +36,5 @@ def read_specs(filepath: str) -> Dict[str, Any]:
     full_filepath = os.path.join(os.path.dirname(__file__), filepath)
     with open(full_filepath, "r") as file:
         data = json.load(file)
+    data.update()
     return data

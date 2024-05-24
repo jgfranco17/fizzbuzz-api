@@ -1,4 +1,5 @@
 """Main server creation setup."""
+import time
 from http import HTTPStatus
 from typing import Any, Dict, Optional
 
@@ -15,7 +16,7 @@ from .models import (
     create_model_from_sequence,
 )
 from .observability import PrometheusMetrics
-from .utils import read_specs
+from .system import get_service_info
 
 
 def __set_v0_routes() -> APIRouter:
@@ -68,17 +69,19 @@ def __set_v0_routes() -> APIRouter:
     return router_v0
 
 
-def __init_base_app(specification: Dict[str, Any]) -> FastAPI:
+def __init_base_app() -> FastAPI:
+    specs = get_service_info(0.0)
     app = FastAPI(
         title="Fizzbuzz API",
         summary="FizzBuzz-as-a-Service",
-        description=specification["description"],
-        version=specification["version"],
+        description=specs.description,
+        version=specs.version,
         contact={
             "name": "Chino Franco",
             "email": "chino.franco@gmail.com",
         },
     )
+    startup_time = time.time()
 
     @app.get("/", status_code=HTTPStatus.OK, tags=["SYSTEM"])
     def root():
@@ -95,15 +98,14 @@ def __init_base_app(specification: Dict[str, Any]) -> FastAPI:
         return HealthCheck(status="healthy")
 
     @app.get("/service-info", status_code=HTTPStatus.OK, tags=["SYSTEM"])
-    def get_service_info() -> ServiceInfo:
+    def service_info() -> ServiceInfo:
         """
         Display the FizzBuzz API project information.
 
         Returns:
             ServiceInfo: Summary of project details
         """
-        specs = read_specs("specs.json")
-        return ServiceInfo(**specs)
+        return get_service_info(startup_time)
 
     @app.exception_handler(HTTPException)
     async def http_exception_handler(request, exc):
@@ -122,8 +124,7 @@ def create_server() -> FastAPI:
     Returns:
         FastAPI: API app unit
     """
-    specs = read_specs("specs.json")
-    app = __init_base_app(specs)
+    app = __init_base_app()
 
     @app.middleware("http")
     async def add_prometheus_metrics(request: Request, call_next):
