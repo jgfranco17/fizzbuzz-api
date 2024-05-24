@@ -1,10 +1,11 @@
 """Main server creation setup."""
 from http import HTTPStatus
-from typing import List, Optional, Tuple
+from typing import Any, Dict, Optional
 
-from fastapi import APIRouter, FastAPI, HTTPException
+from fastapi import APIRouter, FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
 from .computation import generate_fizzbuzz_sequence
 from .models import (
@@ -13,6 +14,7 @@ from .models import (
     ServiceInfo,
     create_model_from_sequence,
 )
+from .observability import PrometheusMetrics
 from .utils import read_specs
 
 
@@ -66,19 +68,12 @@ def __set_v0_routes() -> APIRouter:
     return router_v0
 
 
-def create_server() -> FastAPI:
-    """
-    Creates an instance of the API app.
-
-    Returns:
-        FastAPI: API app unit
-    """
-    specs = read_specs("specs.json")
+def __init_base_app(specification: Dict[str, Any]) -> FastAPI:
     app = FastAPI(
         title="Fizzbuzz API",
         summary="FizzBuzz-as-a-Service",
-        description=specs["description"],
-        version=specs["version"],
+        description=specification["description"],
+        version=specification["version"],
         contact={
             "name": "Chino Franco",
             "email": "chino.franco@gmail.com",
@@ -116,6 +111,37 @@ def create_server() -> FastAPI:
             status_code=exc.status_code,
             content={"status": exc.status_code, "message": exc.detail},
         )
+
+    return app
+
+
+def create_server() -> FastAPI:
+    """
+    Creates an instance of the API app.
+
+    Returns:
+        FastAPI: API app unit
+    """
+    specs = read_specs("specs.json")
+    app = __init_base_app(specs)
+
+    @app.middleware("http")
+    async def add_prometheus_metrics(request: Request, call_next):
+        method = request.method
+        endpoint = request.url.path
+        if "healthz" in endpoint:
+            PrometheusMetrics.HEALTH_CHECK_COUNT.inc()
+        else:
+            PrometheusMetrics.REQUEST_COUNT.labels(
+                method=method, endpoint=endpoint
+            ).inc()
+        with PrometheusMetrics.REQUEST_LATENCY.time():
+            response = await call_next(request)
+        return response
+
+    @app.get("/metrics")
+    async def get_metrics():
+        return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
     main_routes = [
         __set_v0_routes(),

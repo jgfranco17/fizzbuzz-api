@@ -1,6 +1,7 @@
 fastapi
 httpx
 poetry
+prometheus_client
 pydantic
 pydantic[email]
 uvicorn
