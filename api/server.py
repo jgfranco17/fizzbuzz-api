@@ -26,15 +26,6 @@ def __set_v0_routes() -> APIRouter:
     def compute(number: Optional[int] = None) -> FizzBuzzSequence:
         """
         Compute the fizzbuzz sequence until the given number.
-
-        Args:
-            number (int): Upper limit to compute sequence to, defaults to None
-
-        Raises:
-            HTTPException 400: If the number provided is not valid
-
-        Returns:
-            FizzBuzzSequence: Fizzbuzz sequence model
         """
         try:
             if number is None:
@@ -85,15 +76,15 @@ def __init_base_app() -> FastAPI:
 
     @app.get("/", status_code=HTTPStatus.OK, tags=["SYSTEM"])
     def root():
+        """
+        Project main page.
+        """
         return {"message": "Welcome to the FizzBuzz API!"}
 
     @app.get("/healthz", status_code=HTTPStatus.OK, tags=["SYSTEM"])
     def health_check() -> HealthCheck:
         """
         Health check for the API.
-
-        Returns:
-            HealthCheck: API status
         """
         return HealthCheck(status="healthy")
 
@@ -101,14 +92,14 @@ def __init_base_app() -> FastAPI:
     def service_info() -> ServiceInfo:
         """
         Display the FizzBuzz API project information.
-
-        Returns:
-            ServiceInfo: Summary of project details
         """
         return get_service_info(startup_time)
 
     @app.exception_handler(HTTPException)
     async def http_exception_handler(request, exc):
+        """
+        Exception handler.
+        """
         return JSONResponse(
             status_code=exc.status_code,
             content={"status": exc.status_code, "message": exc.detail},
