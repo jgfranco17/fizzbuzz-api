@@ -18,11 +18,6 @@
 <!-- Optional -->
 <!-- This section explains to users how to test the changes on their local machine -->
 
-## Documentation
-
-<!-- Optional -->
-<!-- This section explains to users if there are any related documentation changes in the arene-central-stf-docs repo or other location -->
-
 ## Future Work
 
 <!-- Optional -->
