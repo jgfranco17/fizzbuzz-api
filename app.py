@@ -1,4 +1,4 @@
-from api.cli import main
+from api import main
 
 if __name__ == "__main__":
     main()

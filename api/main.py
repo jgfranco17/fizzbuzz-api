@@ -27,7 +27,3 @@ ___________.__               __________                          _____ _________
     print(f"Debug mode: {config.debug}")
     print(header)
     uvicorn.run(app, host=host, port=config.port)
-
-
-if __name__ == "__main__":
-    main()
