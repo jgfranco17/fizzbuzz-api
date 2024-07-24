@@ -143,7 +143,7 @@ just behave
 
 This will run the specified test module and generates a detailed result report in the terminal.
 
-### Why BDD?
+#### Why BDD?
 
 Behavior-Driven Development (BDD) is a software development methodology that focuses on collaboration among developers, QA, and non-technical stakeholders. BDD aims to enhance communication and understanding by using natural language descriptions of software behaviors and features. BDD allows teams to define the expected behavior of the software before implementation; clear specifications help developers focus on delivering features that meet business requirements. Non-technical team members can also easily understand and contribute to the specification process.
 
@@ -159,6 +159,16 @@ Scenario: Access health-check endpoint
 Using Gherkin allows us to run simple test cases without diving too deep into the technicals. As long as the test-writer is
 familiarized with the basic test steps that can be used, there is no need to use more complex testing frameworks for routine
 tests. Feel free to write your own Gherkin steps for this project!
+
+### Load-testing with Locust
+
+Load testing is a type of performance testing that evaluates how a system behaves under a specific load. The primary goal is to ensure the
+system can handle expected user traffic and identify potential bottlenecks or performance issues before they affect end users. During load
+testing, the system is subjected to increasing numbers of simultaneous users or transactions to determine its capacity, stability, and
+scalability.
+
+For this project, we use [Locust](https://locust.io/), an open-source load testing tool that is highly flexible and scalable, making it a
+popular choice for load testing web applications, APIs, and other services.
 
 ## ✒️ Authors <a name = "authors"></a>
 

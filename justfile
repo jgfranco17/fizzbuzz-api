@@ -70,6 +70,11 @@ behave:
 	@echo "Running feature test suite..."
 	behave ./tests/features/feature_tests/api_features
 
+# Run load tests
+locust:
+    @echo "Running load testing"
+    locust -f ./tests/load-test/locustfile.py
+
 smoke-tests:
 	@echo "Running smoke test suite..."
 	python3 smoketests.py
