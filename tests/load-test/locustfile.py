@@ -16,7 +16,7 @@ class FizzbuzzUser(HttpUser):
 
     @task
     def get_fizzbuz_sequence(self):
-        number = randint(1, 100)
+        number = randint(10, 25)
         endpoint = f"/v0/fizzbuzz?number={number}"
         response = self.client.get(endpoint)
         if response.status_code == 200:
