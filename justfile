@@ -78,3 +78,8 @@ locust:
 smoke-tests:
 	@echo "Running smoke test suite..."
 	python3 smoketests.py
+
+# Stop all Compose containers and delete images created
+clear-docker:
+    docker compose down
+    docker rmi $(docker images | grep "fizzbuzz" | awk "{print \$3}")
