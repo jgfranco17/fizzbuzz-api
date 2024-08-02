@@ -1,25 +1,25 @@
 version: "3"
 services:
-  app-1:
+  fizzbuzz-app-1:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: docker/Dockerfile
     ports:
       - 5051:5050
     networks:
       - api-network
-  app-2:
+  fizzbuzz-app-2:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: docker/Dockerfile
     ports:
       - 5052:5050
     networks:
       - api-network
-  app-3:
+  fizzbuzz-app-3:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: docker/Dockerfile
     ports:
       - 5053:5050
     networks:

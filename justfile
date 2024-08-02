@@ -79,7 +79,11 @@ smoke-tests:
 	@echo "Running smoke test suite..."
 	python3 smoketests.py
 
+# Start Compose with load-balancer
+docker-up:
+    docker compose -f docker/docker-compose.yml up
+
 # Stop all Compose containers and delete images created
-clear-docker:
-    docker compose down
-    docker rmi $(docker images | grep "fizzbuzz" | awk "{print \$3}")
+docker-down:
+    docker compose -f docker/docker-compose.yml down
+    docker rmi $(docker images | grep "app" | awk "{print \$3}")
