@@ -5,11 +5,8 @@ default:
 # Execute installation
 setup:
 	@echo "Setting up project."
-	pip3 install --upgrade setuptools
-	@echo "Installing testing dependencies."
-	pip3 install -r requirements-test.txt
-	@echo "Setting up project requirements."
-	pip3 install -r requirements.txt
+	poetry install
+	poetry shell
 	@echo "Project setup complete!"
 
 # Launch API in debug mode
@@ -27,13 +24,6 @@ build-docker:
 	@echo "Building docker image..."
 	docker build -t fizzbuzz-api:latest -f ./Dockerfile .
 	@echo "Docker image built successfully!"
-
-# Run pep8, black, mypy linters
-lint:
-	python -m pylint api/
-	python -m flake8 api/
-	python -m black -l 80 --check api/
-	python -m mypy --ignore-missing-imports api/
 
 # Clean unused files
 clean:
@@ -56,7 +46,7 @@ clean:
 # Run PyTest unit tests
 pytest:
 	@echo "Running unittest suite..."
-	pytest -vv -rA
+	poetry run pytest -vv -rA
 	-@find ./ -name '__pycache__' -exec rm -rf {} \;
 	-@rm -rf .pytest_cache
 	@echo "Cleaned up test environment"
@@ -68,7 +58,7 @@ coverage:
 # Run Behave feature tests
 behave:
 	@echo "Running feature test suite..."
-	behave ./tests/features/feature_tests/api_features
+	poetry run behave ./tests/features/feature_tests/api_features
 
 # Run load tests
 locust:
