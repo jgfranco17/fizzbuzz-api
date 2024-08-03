@@ -24,7 +24,7 @@ services:
       - 5053:5050
     networks:
       - api-network
-  load-balancer:
+  fizzbuzz-load-balancer:
     image: nginx:latest
     ports:
       - "8080:80"
