@@ -1,7 +1,4 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Pytest
+name: Unit & Feature Testing
 
 on:
   push:
@@ -31,7 +28,7 @@ jobs:
           poetry install --with dev
       - name: Run tests with coverage
         run: |
-          poetry run coverage run --source=api --omit="*/__*.py,*/test_*.py" -m pytest
+          poetry run coverage run --source=api --omit="*/__*.py,*/test_*.py,*/main.py" -m pytest
           poetry run coverage report -m > coverage.txt
       - name: Run BDD tests
         run: |
@@ -40,15 +37,14 @@ jobs:
         if: always()
         run: |
           TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
-          echo "# FizzBuzz API Testing Report" >> $GITHUB_STEP_SUMMARY
-          echo "**${TIMESTAMP}**" >> $GITHUB_STEP_SUMMARY
+          echo "# FizzBuzz API Testing Report [${TIMESTAMP}"] >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Pytest coverage" >> $GITHUB_STEP_SUMMARY
-          echo '```shell' >> $GITHUB_STEP_SUMMARY
+          echo '```text' >> $GITHUB_STEP_SUMMARY
           cat coverage.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Behave report" >> $GITHUB_STEP_SUMMARY
-          echo '```shell' >> $GITHUB_STEP_SUMMARY
+          echo '```text' >> $GITHUB_STEP_SUMMARY
           cat behaviors.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
