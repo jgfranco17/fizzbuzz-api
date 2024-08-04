@@ -1,6 +1,7 @@
 """
 Python setup.py for API package
 """
+
 import io
 import json
 import os

@@ -26,9 +26,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install poetry
           poetry install --with dev
-      - name: Run tests with coverage
+      - name: Run Locust tests
         run: |
-          poetry run locust -f ./tests/load-test/locustfile.py --headless -u 100 -r 5 -t 10s --host https://fizzbuzz-fastapi.onrender.com --json | jq . > results.json
+          poetry run locust -f ./tests/load-test/locustfile.py --headless -u 100 -r 5 -t 1m --host https://fizzbuzz-fastapi.onrender.com --json | jq . > results.json
       - name: Create GHA job summary
         if: always()
         run: |
