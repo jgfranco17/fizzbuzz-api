@@ -81,7 +81,7 @@ def run_smoke_tests(output_file: Optional[str] = "") -> None:
         case.run_request()
         status, duration, message = case.get_result()
         results_table.append(
-            [case.endpoint, case.http_code, status, f"{duration:.2f}s", message]
+            [case.endpoint, case.http_code, status, round(duration, 2), message]
         )
 
     # Tabulate results

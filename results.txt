@@ -1,6 +1,0 @@
-| Endpoint              |  HTTP code  | Result   | Duration (ms)   | Message         |
-|-----------------------|-------------|----------|-----------------|-----------------|
-| /                     |     200     | PASSED   | 165.40s         | No issues found |
-| /healthz              |     200     | PASSED   | 148.49s         | No issues found |
-| /service-info         |     200     | PASSED   | 160.81s         | No issues found |
-| /v0/fizzbuzz?number=5 |     200     | PASSED   | 204.31s         | No issues found |
