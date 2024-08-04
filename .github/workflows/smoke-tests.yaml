@@ -28,7 +28,7 @@ jobs:
 
       - name: Run smoke tests script
         run: |
-          python3 smoketests.py --export results.txt
+          python3 tests/smoke-tests/smoketests.py --export results.txt
 
       - name: Create test summary
         if: always()

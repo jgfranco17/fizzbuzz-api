@@ -67,7 +67,7 @@ locust:
 
 smoke-tests:
 	@echo "Running smoke test suite..."
-	python3 smoketests.py
+	python3 tests/smoke-tests/smoketests.py
 
 # Start Compose with load-balancer
 docker-up:

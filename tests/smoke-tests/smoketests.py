@@ -1,5 +1,6 @@
 import argparse
 from http import HTTPStatus
+from time import perf_counter_ns
 from typing import Optional, Tuple
 
 import requests
@@ -12,19 +13,28 @@ class SmokeTestRequest:
     BASE_URL = "https://fizzbuzz-fastapi.onrender.com"
 
     def __init__(self, endpoint: str, key: str, value: str, http_code: int) -> None:
+        # Base attributes
         self.endpoint = endpoint
         self.__url = self.BASE_URL + endpoint
         self.key = key
         self.value = value
         self.http_code = http_code
+
+        # Attributes to be filled after test
         self.__passed = False
         self.__message = None
+        self.__duration = 0
 
     @property
     def passed(self) -> bool:
         return self.__passed
 
+    @property
+    def duration(self) -> int:
+        return self.__duration
+
     def run_request(self) -> None:
+        request_start_time = perf_counter_ns()
         try:
             response = requests.get(self.__url)
             json_response = response.json()
@@ -42,10 +52,12 @@ class SmokeTestRequest:
         except Exception as e:
             self.__passed = False
             self.__message = f"Unexpected error: {e}"
+        request_end_time = perf_counter_ns()
+        self.__duration = (request_end_time - request_start_time) / (10**6)
 
-    def get_result(self) -> Tuple[str, str]:
+    def get_result(self) -> Tuple[str, int, str]:
         test_result = "PASSED" if self.__passed else "FAILED"
-        return test_result, self.__message
+        return test_result, self.__duration, self.__message
 
 
 def run_smoke_tests(output_file: Optional[str] = "") -> None:
@@ -67,17 +79,20 @@ def run_smoke_tests(output_file: Optional[str] = "") -> None:
     results_table = []
     for case in cases:
         case.run_request()
-        status, message = case.get_result()
-        results_table.append([case.endpoint, case.http_code, status, message])
+        status, duration, message = case.get_result()
+        results_table.append(
+            [case.endpoint, case.http_code, status, f"{duration:.2f}s", message]
+        )
 
     # Tabulate results
-    table_headers = ["Endpoint", "HTTP code", "Result", "Message"]
+    table_headers = ["Endpoint", "HTTP code", "Result", "Duration (ms)", "Message"]
     summary = (
         tabulate(
             results_table, headers=table_headers, tablefmt="github", numalign="center"
         )
         + "\n"
     )
+    print(f"Ran {len(cases)} cases in {sum(case.duration for case in cases):.3f}ms\n")
     print(summary)
 
     if output_file:
