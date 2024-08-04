@@ -19,9 +19,16 @@
 
 ## 🔎 About <a name = "about"></a>
 
-The whole point of this project is to showcase the concepts of SWE and DevOps that I have learned so far. This project features CI/CD workflows and automations, unittesting, and containerization. Git & Github were used as the VCS, and a Docker Hub image is published for container deployment. I dub this as "FizzBuzz-as-a-Service".
+The whole point of this project is to showcase the concepts of SWE and DevOps that I have learned so far. This project features CI/CD
+workflows and automations, unittesting, and containerization. Git & Github were used as the VCS, and a Docker Hub image is published
+for container deployment. I dub this as "FizzBuzz-as-a-Service".
 
-This program aims to create a FastAPI-based microservice that solves the classic FizzBuzz programming problem. The FizzBuzz problem is a common coding challenge often used in interviews to evaluate a candidate's basic programming skills. The task is to write a program that prints numbers from 1 to n; however, for multiples of 3, it should print "Fizz" instead of the number, for multiples of 5, it should print "Buzz," and for numbers that are multiples of both 3 and 5, it should print "FizzBuzz". The FizzBuzz Microservice API provides a simple HTTP-based API to solve the FizzBuzz problem. It allows users to make requests to the microservice and receive the FizzBuzz sequence as a response. This microservice can be easily integrated into other applications or used for testing and learning purposes.
+This program aims to create a FastAPI-based microservice that solves the classic FizzBuzz programming problem. The FizzBuzz problem is a
+common coding challenge often used in interviews to evaluate a candidate's basic programming skills. The task is to write a program that
+prints numbers from 1 to n; however, for multiples of 3, it should print "Fizz" instead of the number, for multiples of 5, it should
+print "Buzz," and for numbers that are multiples of both 3 and 5, it should print "FizzBuzz". The FizzBuzz Microservice API provides a
+simple HTTP-based API to solve the FizzBuzz problem. It allows users to make requests to the microservice and receive the FizzBuzz
+sequence as a response. This microservice can be easily integrated into other applications or used for testing and learning purposes.
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
@@ -31,8 +38,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 Before running the FizzBuzz Microservice API, make sure you have the following prerequisites installed:
 
-- Python 3.8 or above
-- pip package manager
+- [Python 3.9](https://www.python.org/downloads/) or above
+- [Poetry](https://python-poetry.org/) dependency manager
+- [Just](https://github.com/casey/just) command runner
 
 ### Installing
 
@@ -41,7 +49,8 @@ To get started with this project, clone the repository to your local machine and
 ```bash
 git clone https://github.com/jgfranco17/fizzbuzz-api.git
 cd fizzbuzz-api
-pip install -r requirements.txt
+poetry install
+poetry shell
 ```
 
 ## 🚀 Usage <a name = "usage"></a>
@@ -54,23 +63,8 @@ To run the API server in dev mode, simply execute either of the following comman
 # Default Python execution
 python app.py --port <PORT>
 
-# Or, after editing the Makefile to set a port number
-make run
-```
-
-### Build as Python module
-
-To build the project as a Python module, run the following commands.
-
-```bash
-cd fizzbuzz-api
-pip install .
-```
-
-Once the installation is completed, the package can be run as an independent CLI tool.
-
-```bash
-fizzbuzz-api -p <PORT>
+# Or use the Justfile command
+just run-debug
 ```
 
 ### Build with Docker
@@ -104,13 +98,8 @@ curl http://localhost:<PORT>/fizzbuzz?number=<number>
 
 ### Running unittest suite
 
-In order to run diagnostics and unittests, first install the testing dependencies. This will allow you to utilize the full capacity of the test modules we have built.
-
-```bash
-pip install -r requirements-test.txt
-```
-
-To run the full test suite, run the Justfile command as follows:
+In order to run diagnostics and unittests, first install the testing dependencies. This will allow you to utilize the full capacity of the
+test modules we have built. To run the full test suite, run the Justfile command as follows:
 
 ```bash
 just pytest
@@ -118,7 +107,9 @@ just pytest
 
 ### Using PyTest
 
-You can run these tests using the [PyTest](https://docs.pytest.org/en/7.3.x/) CLI tool. To run all tests in the directory containing the test files, navigate to the directory and enter `pytest` in the command line; for added verbosity, add the `-vv` flag after. To run a specific test file, enter `pytest <filename>`.
+You can run these tests using the [PyTest](https://docs.pytest.org/en/7.3.x/) CLI tool. To run all tests in the directory containing the test
+files, navigate to the directory and enter `pytest` in the command line; for added verbosity, add the `-vv` flag after. To run a specific test
+file, enter `pytest <filename>`.
 
 ```bash
 # Run all tests in the testing module with verbose detail
@@ -133,7 +124,9 @@ This will run the specified test module and generates a detailed result report i
 
 ### Running Behave suite
 
-Behave is a Python-based BDD framework that allows you to write tests in a natural language style using Gherkin syntax. Gherkin uses a simple, human-readable format that is easy for both technical and non-technical stakeholders to understand. Behave translates these plain-text scenarios into executable code, allowing teams to collaborate on defining and implementing software features.
+Behave is a Python-based BDD framework that allows you to write tests in a natural language style using Gherkin syntax. Gherkin uses a simple,
+human-readable format that is easy for both technical and non-technical stakeholders to understand. Behave translates these plain-text scenarios
+into executable code, allowing teams to collaborate on defining and implementing software features.
 
 To run the full Behave suite, run the Justfile command as follows:
 
@@ -145,7 +138,11 @@ This will run the specified test module and generates a detailed result report i
 
 #### Why BDD?
 
-Behavior-Driven Development (BDD) is a software development methodology that focuses on collaboration among developers, QA, and non-technical stakeholders. BDD aims to enhance communication and understanding by using natural language descriptions of software behaviors and features. BDD allows teams to define the expected behavior of the software before implementation; clear specifications help developers focus on delivering features that meet business requirements. Non-technical team members can also easily understand and contribute to the specification process.
+Behavior-Driven Development (BDD) is a software development methodology that focuses on collaboration among developers, QA, and non-technical
+stakeholders. BDD aims to enhance communication and understanding by using natural language descriptions of software behaviors and features.
+BDD allows teams to define the expected behavior of the software before implementation; clear specifications help developers focus on
+delivering features that meet business requirements. Non-technical team members can also easily understand and contribute to the specification
+process.
 
 For example, below is a demonstration of a simple test case for pinging the `/healthz` endpoint.
 
