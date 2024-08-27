@@ -76,4 +76,4 @@ docker-up:
 # Stop all Compose containers and delete images created
 docker-down:
     docker compose -f docker/docker-compose.yml down
-    docker rmi $(docker images | grep "app" | awk "{print \$3}")
+    docker rmi $(docker images | grep "fizzbuzz-app" | awk "{print \$3}")
