@@ -4,4 +4,5 @@ poetry
 prometheus_client
 pydantic
 pydantic[email]
+redis
 uvicorn

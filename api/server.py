@@ -1,14 +1,18 @@
 """Main server creation setup."""
+import logging
+import os
 import time
 from http import HTTPStatus
-from typing import Any, Dict, Optional
+from typing import Optional
 
 from fastapi import APIRouter, FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
+from redis import Redis
 
 from .computation import generate_fizzbuzz_sequence
+from .constants import EnvironmentVariables
 from .models import (
     FizzBuzzSequence,
     HealthCheck,
@@ -17,6 +21,11 @@ from .models import (
 )
 from .observability import PrometheusMetrics
 from .system import get_service_info
+
+logger = logging.getLogger(__name__)
+redis_client = Redis(
+    host=os.getenv(EnvironmentVariables.REDIS_HOST), port=6379, decode_responses=True
+)
 
 
 def __set_v0_routes() -> APIRouter:
@@ -53,8 +62,17 @@ def __set_v0_routes() -> APIRouter:
                 detail=f"Invalid input: {http_err.detail}",
             )
 
+        # Check cache
+        cache_key = f"fizzbuzz:{number}"
+        cached_result = redis_client.get(cache_key)
+        if cached_result:
+            logger.info(f"Key '{cache_key}' found in redis, using cached value")
+            return FizzBuzzSequence.model_validate_json(cached_result)
+
+        logger.debug(f"Key for number={number} not found, will calculate")
         raw_output = generate_fizzbuzz_sequence(number)
         output = create_model_from_sequence(raw_output)
+        redis_client.set(cache_key, output.model_dump_json(), ex=3600)
         return output
 
     return router_v0
