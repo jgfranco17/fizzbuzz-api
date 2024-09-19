@@ -52,7 +52,7 @@ def __set_v0_routes() -> APIRouter:
             if not isinstance(number, int):
                 raise HTTPException(
                     status_code=HTTPStatus.BAD_REQUEST,
-                    detail=f" {number} is not integer.",
+                    detail=f"{number} is not integer.",
                 )
 
         except HTTPException as http_err:
@@ -64,10 +64,11 @@ def __set_v0_routes() -> APIRouter:
 
         # Check cache
         cache_key = f"fizzbuzz:{number}"
-        cached_result = redis_client.get(cache_key)
-        if cached_result:
-            logger.info(f"Key '{cache_key}' found in redis, using cached value")
-            return FizzBuzzSequence.model_validate_json(cached_result)
+        if os.getenv(EnvironmentVariables.REDIS_HOST) == "localhost":
+            cached_result = redis_client.get(cache_key)
+            if cached_result:
+                logger.info(f"Key '{cache_key}' found in redis, using cached value")
+                return FizzBuzzSequence.model_validate_json(cached_result)
 
         logger.debug(f"Key for number={number} not found, will calculate")
         raw_output = generate_fizzbuzz_sequence(number)
