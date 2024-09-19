@@ -10,7 +10,7 @@ from tabulate import tabulate
 class SmokeTestRequest:
     """Class-based implementation of a smoke test request."""
 
-    BASE_URL = "https://fizzbuzz-fastapi.onrender.com"
+    BASE_URL = "https://fizzbuzz-api.onrender.com"
 
     def __init__(self, endpoint: str, key: str, value: str, http_code: int) -> None:
         # Base attributes
