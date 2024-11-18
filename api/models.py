@@ -17,6 +17,14 @@ class FizzBuzzSequence(BaseModel):
 
 
 def create_model_from_sequence(data: List[str]) -> FizzBuzzSequence:
+    """Convert a sequence into a FizzBuzzSequence model.
+
+    Args:
+        data (List[str]): Raw sequence data
+
+    Returns:
+        FizzBuzzSequence: Data model
+    """
     fizz = data.count("Fizz")
     buzz = data.count("Buzz")
     fizzbuzz = data.count("FizzBuzz")

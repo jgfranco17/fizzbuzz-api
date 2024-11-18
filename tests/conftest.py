@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 from prometheus_client import CollectorRegistry, Counter, Histogram
 
 from api import create_server
-from api.observability import PrometheusMetrics
+from api.core.observability import PrometheusMetrics
 
 
 @pytest.fixture

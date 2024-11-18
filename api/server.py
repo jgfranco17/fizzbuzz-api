@@ -12,14 +12,14 @@ from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from redis import Redis
 
 from .computation import generate_fizzbuzz_sequence
-from .constants import EnvironmentVariables
+from .core.constants import EnvironmentVariables
 from .models import (
     FizzBuzzSequence,
     HealthCheck,
     ServiceInfo,
     create_model_from_sequence,
 )
-from .observability import PrometheusMetrics
+from .core.observability import PrometheusMetrics
 from .system import get_service_info
 
 logger = logging.getLogger(__name__)
