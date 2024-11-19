@@ -7,7 +7,7 @@ from api.core.observability import PrometheusMetrics
 
 
 @pytest.fixture
-def client():
+def client() -> TestClient:
     app = create_server()
     return TestClient(app)
 

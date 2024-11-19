@@ -1,25 +1,25 @@
 from typing import List
 
 import pytest
-import requests
+from fastapi.testclient import TestClient
 
 from api.computation import generate_fizzbuzz_sequence
 from api.models import FizzBuzzSequence
 
 
-def test_unsupported_routes(client):
+def test_unsupported_routes(client: TestClient):
     for invalid_endpoint in ("random", "doesnt-exist", "fail"):
         response = client.get(f"/{invalid_endpoint}")
         assert response.status_code == 404, "Endpoint does not exist in API."
 
 
-def test_root_endpoint(client):
+def test_root_endpoint(client: TestClient):
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {"message": "Welcome to the FizzBuzz API!"}
 
 
-def test_compute_endpoint_valid_input(client):
+def test_compute_endpoint_valid_input(client: TestClient):
     response = client.get("/v0/fizzbuzz?number=15")
     assert response.status_code == 200
 
@@ -57,7 +57,7 @@ def test_compute_endpoint_valid_input(client):
         (-1, "number must a positive integer from 1 to 10^4"),
     ],
 )
-def test_compute_endpoint_invalid_number(client, value: int, error: str):
+def test_compute_endpoint_invalid_number(client: TestClient, value: int, error: str):
     response = client.get(f"/v0/fizzbuzz?number={value}")
     assert response.status_code == 400
     assert error in response.json()["message"]
