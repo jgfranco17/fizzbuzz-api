@@ -13,19 +13,23 @@ from redis import Redis
 
 from .computation import generate_fizzbuzz_sequence
 from .core.constants import EnvironmentVariables
+from .core.observability import PrometheusMetrics
 from .models import (
     FizzBuzzSequence,
     HealthCheck,
     ServiceInfo,
     create_model_from_sequence,
 )
-from .core.observability import PrometheusMetrics
 from .system import get_service_info
 
 logger = logging.getLogger(__name__)
 redis_client = Redis(
     host=os.getenv(EnvironmentVariables.REDIS_HOST), port=6379, decode_responses=True
 )
+
+
+def __should_use_cache() -> bool:
+    return os.getenv(EnvironmentVariables.REDIS_HOST) == "localhost"
 
 
 def __set_v0_routes() -> APIRouter:
@@ -64,7 +68,7 @@ def __set_v0_routes() -> APIRouter:
 
         # Check cache
         cache_key = f"fizzbuzz:{number}"
-        if os.getenv(EnvironmentVariables.REDIS_HOST) == "localhost":
+        if __should_use_cache():
             cached_result = redis_client.get(cache_key)
             if cached_result:
                 logger.info(f"Key '{cache_key}' found in redis, using cached value")
@@ -73,7 +77,8 @@ def __set_v0_routes() -> APIRouter:
         logger.debug(f"Key for number={number} not found, will calculate")
         raw_output = generate_fizzbuzz_sequence(number)
         output = create_model_from_sequence(raw_output)
-        redis_client.set(cache_key, output.model_dump_json(), ex=3600)
+        if __should_use_cache():
+            redis_client.set(cache_key, output.model_dump_json(), ex=3600)
         return output
 
     return router_v0

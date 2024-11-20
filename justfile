@@ -44,9 +44,9 @@ clean:
 	@echo "Cleaned out unused files and directories!"
 
 # Run PyTest unit tests
-pytest:
+pytest *args:
 	@echo "Running unittest suite..."
-	poetry run pytest -vv -rA
+	poetry run pytest {{ args }}
 	-@find ./ -name '__pycache__' -exec rm -rf {} \;
 	-@rm -rf .pytest_cache
 	@echo "Cleaned up test environment"
