@@ -14,12 +14,7 @@ from redis import Redis
 
 from api.computation import generate_fizzbuzz_sequence
 from api.core.constants import EnvironmentVariables, RedisConfigs
-from api.core.models import (
-    FizzBuzzSequence,
-    HealthCheck,
-    ServiceInfo,
-    create_model_from_sequence,
-)
+from api.core.models import FizzBuzzSequence, HealthCheck, ServiceInfo
 from api.core.observability import PrometheusMetrics
 
 from .system import get_service_info
@@ -76,7 +71,7 @@ def __set_v0_routes() -> APIRouter:
 
         logger.debug(f"Key for number={number} not found, will calculate")
         raw_output = generate_fizzbuzz_sequence(number)
-        output = create_model_from_sequence(raw_output)
+        output = FizzBuzzSequence.from_sequence(raw_output)
         if __should_use_cache():
             redis_client.set(cache_key, output.model_dump_json(), ex=3600)
         return output
