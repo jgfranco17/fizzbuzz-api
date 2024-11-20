@@ -3,7 +3,7 @@ import logging
 import os
 import time
 from http import HTTPStatus
-from typing import Optional
+from typing import Optional, Tuple
 
 from fastapi import APIRouter, FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -32,6 +32,13 @@ def __should_use_cache() -> bool:
     return os.getenv(EnvironmentVariables.REDIS_HOST) == "localhost"
 
 
+def __validate_number_input(value: int) -> Tuple[bool, str]:
+    if value is None:
+        return False, "no number provided"
+    if not 1 <= value <= 10**4:
+        return False, "number must a positive integer from 1 to 10^4, inclusive"
+
+
 def __set_v0_routes() -> APIRouter:
     router_v0 = APIRouter(prefix="/v0", tags=["FIZZBUZZ"])
 
@@ -41,26 +48,14 @@ def __set_v0_routes() -> APIRouter:
         Compute the fizzbuzz sequence until the given number.
         """
         try:
-            if number is None:
+            is_valid, error_message = __validate_number_input(number)
+            if not is_valid:
                 raise HTTPException(
                     status_code=HTTPStatus.BAD_REQUEST,
-                    detail="no number provided",
+                    detail=error_message,
                 )
-
-            if not 1 <= number <= 10**4:
-                raise HTTPException(
-                    status_code=HTTPStatus.BAD_REQUEST,
-                    detail="number must a positive integer from 1 to 10^4, inclusive.",
-                )
-
-            if not isinstance(number, int):
-                raise HTTPException(
-                    status_code=HTTPStatus.BAD_REQUEST,
-                    detail=f"{number} is not integer.",
-                )
-
         except HTTPException as http_err:
-            print(f"Invalid input: {http_err.detail}")
+            logger.error(f"Invalid input: {http_err.detail}")
             raise HTTPException(
                 status_code=http_err.status_code,
                 detail=f"Invalid input: {http_err.detail}",
@@ -71,7 +66,7 @@ def __set_v0_routes() -> APIRouter:
         if __should_use_cache():
             cached_result = redis_client.get(cache_key)
             if cached_result:
-                logger.info(f"Key '{cache_key}' found in redis, using cached value")
+                logger.debug(f"Key '{cache_key}' found in redis, using cached value")
                 return FizzBuzzSequence.model_validate_json(cached_result)
 
         logger.debug(f"Key for number={number} not found, will calculate")
