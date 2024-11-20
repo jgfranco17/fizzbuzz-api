@@ -4,7 +4,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from api.computation import generate_fizzbuzz_sequence
-from api.models import FizzBuzzSequence
+from api.core.models import FizzBuzzSequence
 
 
 def test_unsupported_routes(client: TestClient):

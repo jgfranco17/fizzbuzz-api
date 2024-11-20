@@ -3,7 +3,7 @@ from typing import List
 import pytest
 
 from api.computation import generate_fizzbuzz_sequence
-from api.models import FizzBuzzSequence, create_model_from_sequence
+from api.core.models import FizzBuzzSequence, create_model_from_sequence
 
 
 @pytest.mark.parametrize(

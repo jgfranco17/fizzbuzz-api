@@ -3,7 +3,7 @@ import logging
 import os
 import time
 from http import HTTPStatus
-from typing import Optional, Tuple
+from typing import Any, Callable, Optional, Tuple
 
 from fastapi import APIRouter, FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,15 +11,16 @@ from fastapi.responses import JSONResponse
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from redis import Redis
 
-from .computation import generate_fizzbuzz_sequence
-from .core.constants import EnvironmentVariables
-from .core.observability import PrometheusMetrics
-from .models import (
+from api.computation import generate_fizzbuzz_sequence
+from api.core.constants import EnvironmentVariables
+from api.core.models import (
     FizzBuzzSequence,
     HealthCheck,
     ServiceInfo,
     create_model_from_sequence,
 )
+from api.core.observability import PrometheusMetrics
+
 from .system import get_service_info
 
 logger = logging.getLogger(__name__)
@@ -37,6 +38,7 @@ def __validate_number_input(value: int) -> Tuple[bool, str]:
         return False, "no number provided"
     if not 1 <= value <= 10**4:
         return False, "number must a positive integer from 1 to 10^4, inclusive"
+    return True, ""
 
 
 def __set_v0_routes() -> APIRouter:
@@ -137,7 +139,9 @@ def create_server() -> FastAPI:
     app = __init_base_app()
 
     @app.middleware("http")
-    async def add_prometheus_metrics(request: Request, call_next):
+    async def add_prometheus_metrics(
+        request: Request, call_next: Callable[[Request], Any]
+    ):
         method = request.method
         endpoint = request.url.path
         if "healthz" in endpoint:

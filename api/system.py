@@ -1,6 +1,6 @@
 import time
 
-from .models import ServiceInfo
+from api.core.models import ServiceInfo
 
 
 def get_service_info(start: float) -> ServiceInfo:
