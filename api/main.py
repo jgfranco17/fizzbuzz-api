@@ -1,4 +1,3 @@
-"""Entrypoint for CLI deployment."""
 import logging
 
 import uvicorn

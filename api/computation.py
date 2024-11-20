@@ -1,6 +1,3 @@
-"""
-FIZZBUZZ MODULE
-"""
 from typing import List
 
 

@@ -1,8 +1,3 @@
-"""
-UTILS.PY
-
-Miscellaneous helper functions for CLI tool management.
-"""
 import argparse
 from types import SimpleNamespace
 from typing import Any, List, Union

@@ -1,4 +1,5 @@
 """Main server creation setup."""
+
 import logging
 import os
 import time
@@ -12,7 +13,7 @@ from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from redis import Redis
 
 from api.computation import generate_fizzbuzz_sequence
-from api.core.constants import EnvironmentVariables
+from api.core.constants import EnvironmentVariables, RedisConfigs
 from api.core.models import (
     FizzBuzzSequence,
     HealthCheck,
@@ -25,12 +26,14 @@ from .system import get_service_info
 
 logger = logging.getLogger(__name__)
 redis_client = Redis(
-    host=os.getenv(EnvironmentVariables.REDIS_HOST), port=6379, decode_responses=True
+    host=os.getenv(EnvironmentVariables.REDIS_HOST),
+    port=RedisConfigs.DEFAULT_PORT,
+    decode_responses=True,
 )
 
 
 def __should_use_cache() -> bool:
-    return os.getenv(EnvironmentVariables.REDIS_HOST) == "localhost"
+    return os.getenv(EnvironmentVariables.REDIS_HOST) == RedisConfigs.LOCAL
 
 
 def __validate_number_input(value: int) -> Tuple[bool, str]:
