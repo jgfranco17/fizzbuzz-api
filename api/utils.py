@@ -4,8 +4,7 @@ from typing import Any, List, Union
 
 
 def load_args() -> argparse.Namespace:
-    """
-    Load and parse command line arguments.
+    """Load and parse command line arguments.
 
     Returns:
         argparse.Namespace: parsed arguments
@@ -29,9 +28,7 @@ def load_args() -> argparse.Namespace:
 def unmarshal(
     json_data: Union[dict, List[Any]]
 ) -> Union[SimpleNamespace, List[SimpleNamespace]]:
-    """
-    Recursively convert a dictionary to a namespace.
-    """
+    """Recursively convert a dictionary to a namespace."""
     if isinstance(json_data, dict):
         return SimpleNamespace(
             **{key: unmarshal(value) for key, value in json_data.items()}

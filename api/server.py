@@ -28,6 +28,11 @@ redis_client = Redis(
 
 
 def __should_use_cache() -> bool:
+    """Helper function to determine if cache should be used.
+
+    Separated the logic in case the cache condition changes
+    later down the line.
+    """
     return os.getenv(EnvironmentVariables.REDIS_HOST) == RedisConfigs.LOCAL
 
 
@@ -44,9 +49,7 @@ def __set_v0_routes() -> APIRouter:
 
     @router_v0.get("/fizzbuzz")
     def compute(number: Optional[int] = None) -> FizzBuzzSequence:
-        """
-        Compute the fizzbuzz sequence until the given number.
-        """
+        """Compute the fizzbuzz sequence until the given number."""
         try:
             is_valid, error_message = __validate_number_input(number)
             if not is_valid:
@@ -111,34 +114,27 @@ def __init_base_app() -> FastAPI:
 
     @app.get("/", status_code=HTTPStatus.OK, tags=["SYSTEM"])
     def root():
-        """
-        Project main page.
-        """
+        """Project main page."""
         return {"message": "Welcome to the FizzBuzz API!"}
 
     @app.get("/healthz", status_code=HTTPStatus.OK, tags=["SYSTEM"])
     def health_check() -> HealthCheck:
-        """
-        Health check for the API.
-        """
+        """Health check for the API."""
         return HealthCheck(status="healthy")
 
     @app.get("/service-info", status_code=HTTPStatus.OK, tags=["SYSTEM"])
     def service_info() -> ServiceInfo:
-        """
-        Display the FizzBuzz API project information.
-        """
+        """Display the FizzBuzz API project information."""
         return get_service_info(startup_time)
 
     @app.get("/metrics")
     async def get_metrics():
+        """Get the metrics using Prometheus."""
         return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
     @app.exception_handler(HTTPException)
-    async def http_exception_handler(request, exc):
-        """
-        Exception handler.
-        """
+    async def http_exception_handler(request: Request, exc: HTTPException):
+        """General exception handler."""
         return JSONResponse(
             status_code=exc.status_code,
             content={"status": exc.status_code, "message": exc.detail},
@@ -148,8 +144,10 @@ def __init_base_app() -> FastAPI:
 
 
 def create_server() -> FastAPI:
-    """
-    Creates an instance of the API app.
+    """Creates an instance of the API app.
+
+    This constructor creates a base app, registers all
+    routes and middleware, and sets the CORS configuration.
 
     Returns:
         FastAPI: API app unit
@@ -167,7 +165,7 @@ def create_server() -> FastAPI:
         CORSMiddleware,
         allow_origins=["*"],  # Adjust this to restrict origins
         allow_credentials=True,
-        allow_methods=["*"],
+        allow_methods=["GET"],
         allow_headers=["*"],
     )
 

@@ -2,8 +2,7 @@ from typing import List
 
 
 def is_divisible_by(num: int, divisor: int) -> bool:
-    """
-    Function to unnecessarily complicate the modulo operation.
+    """Function to unnecessarily complicate the modulo operation.
 
     Args:
         num (nnt): Number to be tested
@@ -16,10 +15,10 @@ def is_divisible_by(num: int, divisor: int) -> bool:
 
 
 def fizzbuzz(n: int) -> str:
-    """
-    Performs a standard FizzBuzz check on a given number. If the
-    number is divisible by 3, returns "Fizz". If the number is
-    divisible by 5, returns "Buzz". If the number is divisible by
+    """Performs a standard FizzBuzz check on a given number.
+
+    If the number is divisible by 3, returns "Fizz". If the number
+    is divisible by 5, returns "Buzz". If the number is divisible by
     both 3 and 5, returns "FizzBuzz". Otherwise, returns the string
     representation of the number.
 
@@ -41,8 +40,7 @@ def fizzbuzz(n: int) -> str:
 
 
 def generate_fizzbuzz_sequence(limit: int) -> List[str]:
-    """
-    Creates a list for API output
+    """Creates a list for API output.
 
     Args:
         limit (int): Count of how many numbers to run
