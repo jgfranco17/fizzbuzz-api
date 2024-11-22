@@ -93,6 +93,22 @@ def __init_base_app() -> FastAPI:
     )
     startup_time = time.time()
 
+    @app.middleware("http")
+    async def add_prometheus_metrics(
+        request: Request, call_next: Callable[[Request], Any]
+    ):
+        method = request.method
+        endpoint = request.url.path
+        if "healthz" in endpoint:
+            PrometheusMetrics.HEALTH_CHECK_COUNT.inc()
+        else:
+            PrometheusMetrics.REQUEST_COUNT.labels(
+                method=method, endpoint=endpoint
+            ).inc()
+        with PrometheusMetrics.REQUEST_LATENCY.time():
+            response = await call_next(request)
+        return response
+
     @app.get("/", status_code=HTTPStatus.OK, tags=["SYSTEM"])
     def root():
         """
@@ -113,6 +129,10 @@ def __init_base_app() -> FastAPI:
         Display the FizzBuzz API project information.
         """
         return get_service_info(startup_time)
+
+    @app.get("/metrics")
+    async def get_metrics():
+        return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
     @app.exception_handler(HTTPException)
     async def http_exception_handler(request, exc):
@@ -135,26 +155,6 @@ def create_server() -> FastAPI:
         FastAPI: API app unit
     """
     app = __init_base_app()
-
-    @app.middleware("http")
-    async def add_prometheus_metrics(
-        request: Request, call_next: Callable[[Request], Any]
-    ):
-        method = request.method
-        endpoint = request.url.path
-        if "healthz" in endpoint:
-            PrometheusMetrics.HEALTH_CHECK_COUNT.inc()
-        else:
-            PrometheusMetrics.REQUEST_COUNT.labels(
-                method=method, endpoint=endpoint
-            ).inc()
-        with PrometheusMetrics.REQUEST_LATENCY.time():
-            response = await call_next(request)
-        return response
-
-    @app.get("/metrics")
-    async def get_metrics():
-        return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
     main_routes = [
         __set_v0_routes(),
