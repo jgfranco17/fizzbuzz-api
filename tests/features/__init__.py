@@ -1,1 +1,1 @@
-"""Declares this directory as a Python module."""
+"""Declares this test directory as a Python module."""

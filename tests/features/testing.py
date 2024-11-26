@@ -3,7 +3,7 @@ import logging
 import subprocess
 from pathlib import Path
 
-LOGLEVEL = "DEBUG"
+LOGLEVEL = "INFO"
 
 
 def __set_logging_level(level: str) -> None:
