@@ -2,13 +2,12 @@ import pytest
 from fastapi.testclient import TestClient
 from prometheus_client import CollectorRegistry, Counter, Histogram
 
-from api import create_server
-from api.core.observability import PrometheusMetrics
+from api.observability.metrics import PrometheusMetrics
+from api.service import app
 
 
 @pytest.fixture
 def client() -> TestClient:
-    app = create_server()
     return TestClient(app)
 
 

@@ -1,6 +1,6 @@
 from prometheus_client.exposition import generate_latest
 
-from api.core.observability import PrometheusMetrics
+from api.observability.metrics import PrometheusMetrics
 
 
 def test_request_count_increment():

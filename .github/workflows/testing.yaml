@@ -1,50 +1,81 @@
-name: Unit & Feature Testing
+name: Testing
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - "main"
   pull_request:
-    branches: ["main"]
+    branches:
+      - "main"
 
 permissions:
   contents: read
 
 jobs:
-  run-testing:
+  unit-tests:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up Python 3
         uses: actions/setup-python@v3
         with:
           python-version: "3.10"
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install poetry
           poetry install --with dev
-      - name: Run tests with coverage
+
+      - name: Run unit tests with coverage
         run: |
           poetry run coverage run --source=api --omit="*/__*.py,*/test_*.py,*/main.py" -m pytest
           poetry run coverage report -m > coverage.txt
-      - name: Run BDD tests
-        run: |
-          poetry run behave ./tests/features/feature_tests/api_features > behaviors.txt
+
       - name: Create GHA job summary
         if: always()
         run: |
           TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
-          echo "# FizzBuzz API Testing Report [${TIMESTAMP}"] >> $GITHUB_STEP_SUMMARY
+          echo "# FizzBuzz API Unit Testing Report" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Pytest coverage" >> $GITHUB_STEP_SUMMARY
           echo '```text' >> $GITHUB_STEP_SUMMARY
           cat coverage.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+
+  feature-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install --with dev
+
+      - name: Run Gherkin tests
+        run: |
+          poetry run behave ./tests/features/feature_tests/api_features > behaviors.txt
+
+      - name: Create GHA job summary
+        if: always()
+        run: |
+          echo "# FizzBuzz API Feature Testing Report" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## Behave report" >> $GITHUB_STEP_SUMMARY
+          echo "## Pytest coverage" >> $GITHUB_STEP_SUMMARY
           echo '```text' >> $GITHUB_STEP_SUMMARY
           cat behaviors.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY

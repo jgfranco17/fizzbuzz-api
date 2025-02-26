@@ -2,8 +2,8 @@ import logging
 
 import uvicorn
 
-from .server import create_server
-from .utils import load_args
+from api.service import app
+from api.utils import load_args
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -28,7 +28,6 @@ ___________.__               __________                          _____ _________
 \___  /   |__/_____ \/_____ \|______  /____//_____ \/_____ \ \____|__  /____|   |___|
     \/             \/      \/       \/            \/      \/         \/
     """
-    app = create_server()
     config = load_args()
     host = "0.0.0.0" if config.debug else "127.0.0.1"
     print(f"Running FizzBuzz API")

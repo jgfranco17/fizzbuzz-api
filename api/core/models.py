@@ -44,17 +44,5 @@ class ProjectAuthor(BaseModel):
     email: EmailStr
 
 
-class ServiceInfo(BaseModel):
-    project_name: str
-    description: str
-    repository_url: str
-    license: str
-    version: str
-    languages: List[str]
-    frameworks: List[str]
-    authors: List[ProjectAuthor]
-    seconds_since_start: float
-
-
 class HealthCheck(BaseModel):
     status: str

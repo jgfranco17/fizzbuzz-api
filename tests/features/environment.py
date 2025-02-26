@@ -1,16 +1,11 @@
 from fastapi.testclient import TestClient
 
-from api import create_server
-
-
-def __create_mock_server():
-    app = create_server()
-    return TestClient(app)
+from api.service import app
 
 
 def before_all(context):
     print("\nSetting up resources for the entire test run...")
-    context.mock_server = __create_mock_server()
+    context.mock_server = TestClient(app)
     context.setup_complete = True
     print("Loaded mock server, ready for feature tests!\n")
 
