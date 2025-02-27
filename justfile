@@ -52,8 +52,8 @@ pytest *args:
 	@echo "Cleaned up test environment"
 
 coverage:
-    poetry run coverage run --source=api --omit="*/__*.py,*/test_*.py" -m pytest
-    poetry run coverage report
+    @poetry run coverage run -m pytest
+    @poetry run coverage report
 
 # Run Behave feature tests
 behave:

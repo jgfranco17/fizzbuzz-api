@@ -1,0 +1,12 @@
+[run]
+source = api
+omit =
+    */__*.py
+    */test_*.py
+branch = True
+
+[report]
+show_missing = True
+
+[html]
+directory = coverage_html

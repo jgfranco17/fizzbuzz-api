@@ -33,8 +33,8 @@ jobs:
 
       - name: Run unit tests with coverage
         run: |
-          poetry run coverage run --source=api --omit="*/__*.py,*/test_*.py,*/main.py" -m pytest
-          poetry run coverage report -m > coverage.txt
+          poetry run coverage run -m pytest
+          poetry run coverage report > coverage.txt
 
       - name: Create GHA job summary
         if: always()
