@@ -36,6 +36,6 @@ jobs:
           TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
           echo "# FizzBuzz API Smoke Tests [${TIMESTAMP}"] >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo '```text' >> $GITHUB_STEP_SUMMARY
+          echo '```console' >> $GITHUB_STEP_SUMMARY
           cat results.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
