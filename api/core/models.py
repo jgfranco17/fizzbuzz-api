@@ -13,7 +13,7 @@ class FizzBuzzSequence(BaseModel):
     sequence: List[str]
 
     def __len__(self) -> int:
-        return len(self.data)
+        return len(self.sequence)
 
     @classmethod
     def from_sequence(cls, data: List[str]) -> "FizzBuzzSequence":

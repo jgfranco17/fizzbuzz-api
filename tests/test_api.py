@@ -19,6 +19,17 @@ def test_root_endpoint(client: TestClient):
     assert response.json() == {"message": "Welcome to the FizzBuzz API!"}
 
 
+def test_service_info_endpoint(client: TestClient):
+    response = client.get("/service-info")
+    assert response.status_code == 200
+
+
+def test_health_endpoint(client: TestClient):
+    response = client.get("/healthz")
+    assert response.status_code == 200
+    assert response.json() == {"status": "healthy"}
+
+
 def test_compute_endpoint_valid_input(client: TestClient):
     response = client.get("/v0/fizzbuzz?number=15")
     assert response.status_code == 200
@@ -47,6 +58,12 @@ def test_compute_endpoint_valid_input(client: TestClient):
         ],
     }
     assert response.json() == expected_summary, "Resulting JSON response did not match"
+
+
+def test_compute_endpoint_no_number(client: TestClient):
+    response = client.get(f"/v0/fizzbuzz")
+    assert response.status_code == 400
+    assert "no number provided" in response.json()["message"]
 
 
 @pytest.mark.parametrize(

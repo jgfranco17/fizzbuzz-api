@@ -22,3 +22,4 @@ def test_fizzbuzz_model(sequence: List[str], fizz: int, buzz: int):
     assert (
         generated_model.buzz == buzz
     ), f"Expected buzz count of {buzz} but got {generated_model.buzz}"
+    assert len(generated_model) == len(sequence)
