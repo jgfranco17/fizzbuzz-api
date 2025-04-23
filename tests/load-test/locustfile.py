@@ -29,15 +29,9 @@ class FizzbuzzUser(HttpUser):
         response = self.client.get(endpoint)
         self.log_response(endpoint, HTTPStatus.OK, response)
 
-    @task(50)
+    @task(90)
     def test_get_fizzbuz_sequence(self):
-        number = randint(10, 25)
+        number = randint(10, 50)
         endpoint = f"/v0/fizzbuzz?number={number}"
         response = self.client.get(endpoint)
         self.log_response(endpoint, HTTPStatus.OK, response)
-
-    @task(1)
-    def test_not_found(self):
-        endpoint = f"/missing"
-        response = self.client.get(endpoint)
-        self.log_response(endpoint, HTTPStatus.NOT_FOUND, response)
