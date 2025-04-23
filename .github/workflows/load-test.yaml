@@ -22,20 +22,15 @@ jobs:
           python-version: "3.10"
       - name: Install dependencies
         run: |
-          sudo apt-get update && sudo apt-get install -y jq
+          sudo apt-get update
+          sudo apt-get install -y jq
           python -m pip install --upgrade pip
           pip install poetry
           poetry install --with dev
       - name: Run Locust tests
         run: |
-          poetry run locust -f ./tests/load-test/locustfile.py -u 100 -r 5 -t 1m --host ${{ secrets.PRODUCTION_URL }} --json --headless | jq . > results.json
-      - name: Create GHA job summary
-        if: always()
-        run: |
-          TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
-          echo "# FizzBuzz API Load Test [${TIMESTAMP}"] >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## JSON Report" >> $GITHUB_STEP_SUMMARY
-          echo '```json' >> $GITHUB_STEP_SUMMARY
-          cat results.json >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+          poetry run locust \
+            -f ./tests/load-test/locustfile.py \
+            -u 100 -r 5 -t 1m \
+            --host ${{ secrets.PRODUCTION_URL }} \
+            --headless
