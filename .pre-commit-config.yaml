@@ -33,7 +33,7 @@ repos:
     # Otherwise will fail on commit-msg hook
     hooks:
       - id: prettier
-        stages: [commit]
+        stages: [pre-commit]
         exclude: Pipfile.lock
 
   - repo: https://github.com/pycqa/isort

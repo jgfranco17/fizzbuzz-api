@@ -87,10 +87,12 @@ docker run -p 5050:5050 fizzbuzz-api
 docker compose up
 ```
 
-The Docker image is also available on [Docker Hub](https://hub.docker.com/r/jgfranco17/fizzbuzz-api)
+The Docker image is also available on [Docker Hub](https://hub.docker.com/r/jgfranco17/fizzbuzz-api).
+The port used in the Dockerfile is `5050`.
 
 ```bash
 docker pull jgfranco17/fizzbuzz-api:latest
+docker run -p 5050:5050 jgfranco17/fizzbuzz-api:latest
 ```
 
 ### Calling the API
