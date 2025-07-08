@@ -1,6 +1,15 @@
+from typing import Dict
+
 from behave import given, then, when
 
 from tests.features.stubs import TestContext
+
+ENDPOINT_MAP: Dict[str, str] = {
+    "index": "/",
+    "health-check": "/healthz",
+    "service info": "/service-info",
+    "metrics": "/metrics",
+}
 
 
 def __parse_keyword(keyword: str):
@@ -13,12 +22,23 @@ def __parse_keyword(keyword: str):
 @given("I start the API")
 def step_prelaunch_checks(context: TestContext):
     assert context.setup_complete, "Setup was not successful."
-    assert context.response is None, "Response was not reset to None."
+    assert context.response is None, "Response was not reset to null."
 
 
-@given('I send a request to "{endpoint:S}"')
-@when('I send a request to "{endpoint:S}"')
-def step_get_request(context: TestContext, endpoint: str):
+@given("I send a request to the fizzbuzz endpoint with value {value:d}")
+@when("I send a request to the fizzbuzz endpoint with value {value:d}")
+def step_get_request(context: TestContext, value: int):
+    endpoint = f"/v0/fizzbuzz?number={value}"
+    context.response = context.mock_server.get(endpoint)
+
+
+@given("I send a request to the {endpoint_name:S} endpoint")
+@when("I send a request to the {endpoint_name:S} endpoint")
+def step_get_request(context: TestContext, endpoint_name: str):
+    assert (
+        endpoint_name in ENDPOINT_MAP.keys()
+    ), f"Endpoint '{endpoint_name}' is not recognized."
+    endpoint = ENDPOINT_MAP.get(endpoint_name)
     context.response = context.mock_server.get(endpoint)
 
 
