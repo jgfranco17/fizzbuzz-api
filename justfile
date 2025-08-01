@@ -1,5 +1,5 @@
 # List out available commands
-default:
+_default:
 	@just --list
 
 # Execute installation
