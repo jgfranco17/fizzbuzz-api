@@ -1,8 +1,10 @@
+import pytest
 from prometheus_client.exposition import generate_latest
 
 from api.observability.metrics import PrometheusMetrics
 
 
+@pytest.mark.api
 def test_request_count_increment():
     method = "GET"
     endpoint = "/service-info"

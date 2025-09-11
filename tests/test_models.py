@@ -2,7 +2,6 @@ from typing import List
 
 import pytest
 
-from api.core.computation import generate_fizzbuzz_sequence
 from api.core.models import FizzBuzzSequence
 
 

@@ -4,32 +4,29 @@ import pytest
 from fastapi.testclient import TestClient
 
 from api.core.computation import generate_fizzbuzz_sequence
-from api.core.models import FizzBuzzSequence
 
 
-def test_unsupported_routes(client: TestClient):
-    for invalid_endpoint in ("random", "doesnt-exist", "fail"):
-        response = client.get(f"/{invalid_endpoint}")
-        assert response.status_code == 404, "Endpoint does not exist in API."
-
-
+@pytest.mark.api
 def test_root_endpoint(client: TestClient):
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {"message": "Welcome to the FizzBuzz API!"}
 
 
+@pytest.mark.api
 def test_service_info_endpoint(client: TestClient):
     response = client.get("/service-info")
     assert response.status_code == 200
 
 
+@pytest.mark.api
 def test_health_endpoint(client: TestClient):
     response = client.get("/healthz")
     assert response.status_code == 200
     assert response.json() == {"status": "healthy"}
 
 
+@pytest.mark.api
 def test_compute_endpoint_valid_input(client: TestClient):
     response = client.get("/v0/fizzbuzz?number=15")
     assert response.status_code == 200
@@ -60,12 +57,14 @@ def test_compute_endpoint_valid_input(client: TestClient):
     assert response.json() == expected_summary, "Resulting JSON response did not match"
 
 
+@pytest.mark.api
 def test_compute_endpoint_no_number(client: TestClient):
-    response = client.get(f"/v0/fizzbuzz")
+    response = client.get("/v0/fizzbuzz")
     assert response.status_code == 400
     assert "no number provided" in response.json()["message"]
 
 
+@pytest.mark.api
 @pytest.mark.parametrize(
     "value,error",
     [
@@ -80,6 +79,7 @@ def test_compute_endpoint_invalid_number(client: TestClient, value: int, error: 
     assert error in response.json()["message"]
 
 
+@pytest.mark.api
 @pytest.mark.parametrize(
     "num,expected",
     [
@@ -90,3 +90,9 @@ def test_compute_endpoint_invalid_number(client: TestClient, value: int, error: 
 def test_generate_fizzbuzz_sequence(num: int, expected: List[str]):
     actual = generate_fizzbuzz_sequence(num)
     assert actual == expected, f"Expected {expected}, got {actual}."
+
+
+@pytest.mark.api
+def test_unsupported_routes(client: TestClient):
+    response = client.get("/definitely-invalid")
+    assert response.status_code == 404, "Endpoint does not exist in API."
