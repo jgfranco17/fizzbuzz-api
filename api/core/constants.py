@@ -11,3 +11,10 @@ class EnvironmentVariables:
 class RedisConfigs:
     LOCAL: Final[str] = "localhost"
     DEFAULT_PORT: Final[int] = 6379
+
+
+@dataclass(frozen=True)
+class SequenceWords:
+    Fizz: Final[str] = "Fizz"
+    Buzz: Final[str] = "Buzz"
+    FizzBuzz: Final[str] = "FizzBuzz"

@@ -2,6 +2,8 @@ from typing import List
 
 from pydantic import BaseModel, EmailStr
 
+from api.core.constants import SequenceWords
+
 
 class FizzBuzzSequence(BaseModel):
     """Data class for FizzBuzz sequence data."""
@@ -25,9 +27,9 @@ class FizzBuzzSequence(BaseModel):
         Returns:
             FizzBuzzSequence: Data model
         """
-        fizz = data.count("Fizz")
-        buzz = data.count("Buzz")
-        fizzbuzz = data.count("FizzBuzz")
+        fizz = data.count(SequenceWords.Fizz)
+        buzz = data.count(SequenceWords.Buzz)
+        fizzbuzz = data.count(SequenceWords.FizzBuzz)
         digits = len(data) - (fizz + buzz + fizzbuzz)
         return cls(
             fizz=fizz,

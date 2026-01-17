@@ -1,20 +1,9 @@
 from typing import List
 
-
-def is_divisible_by(num: int, divisor: int) -> bool:
-    """Function to unnecessarily complicate the modulo operation.
-
-    Args:
-        num (nnt): Number to be tested
-        divisor (nnt): Number to test divisibility against
-
-    Returns:
-        bool: Returns True if the num is a multiple of divisor
-    """
-    return num % divisor == 0
+from api.core.constants import SequenceWords
 
 
-def fizzbuzz(n: int) -> str:
+def _find_fizzbuzz_up_to(n: int) -> str:
     """Performs a standard FizzBuzz check on a given number.
 
     If the number is divisible by 3, returns "Fizz". If the number
@@ -23,18 +12,18 @@ def fizzbuzz(n: int) -> str:
     representation of the number.
 
     Parameters:
-        n (nnt): The number to be checked
+        n (int): The number to be checked
 
     Returns:
         str: The FizzBuzz result for the given number.
     """
     result = ""
 
-    if is_divisible_by(n, 3):
-        result += "Fizz"
+    if n % 3 == 0:
+        result += SequenceWords.Fizz
 
-    if is_divisible_by(n, 5):
-        result += "Buzz"
+    if n % 5 == 0:
+        result += SequenceWords.Buzz
 
     return result.strip() if result else str(n)
 
@@ -48,4 +37,4 @@ def generate_fizzbuzz_sequence(limit: int) -> List[str]:
     Returns:
         list: Resulting FizzBuzz outputs
     """
-    return [fizzbuzz(i) for i in range(1, limit + 1)]
+    return [_find_fizzbuzz_up_to(i) for i in range(1, limit + 1)]
