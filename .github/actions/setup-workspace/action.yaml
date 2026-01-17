@@ -1,0 +1,20 @@
+---
+name: "Setup Python Workspace"
+description: "Configure Python tools with UV"
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python 3
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.12"
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        pip install poetry
+        poetry install --with dev
+
+    - name: Install Just
+      uses: extractions/setup-just@v2

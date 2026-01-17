@@ -17,36 +17,22 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-
     steps:
       - name: Check repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
-      - name: Set up Python 3
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.10"
-
-      - name: Install dependencies
-        run: |
-          pip install poetry
-          poetry install --with dev
-
-      - name: Install Just
-        uses: extractions/setup-just@v2
+      - name: Set up workspace
+        uses: ./.github/actions/setup-workspace
 
       - name: Check test coverage
         run: |
-          just pytest -vv
+          just pytest -x
 
   deploy:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main'}}
     needs: build
     environment: production
-
     steps:
       - name: Deploy to Render
         env:
@@ -54,4 +40,4 @@ jobs:
         run: |
           curl -s ${{ secrets.RENDER_DEPLOY_HOOK }} \
             -X POST \
-            -H "Authorization: Bearer $RENDER_API_KEY"
+            -H "Authorization: Bearer ${RENDER_API_KEY}"
