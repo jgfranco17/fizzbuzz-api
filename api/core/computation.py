@@ -3,7 +3,7 @@ from typing import List
 from api.core.constants import SequenceWords
 
 
-def _find_fizzbuzz_up_to(n: int) -> str:
+def _find_fizzbuzz_of(n: int) -> str:
     """Performs a standard FizzBuzz check on a given number.
 
     If the number is divisible by 3, returns "Fizz". If the number
@@ -37,4 +37,4 @@ def generate_fizzbuzz_sequence(limit: int) -> List[str]:
     Returns:
         list: Resulting FizzBuzz outputs
     """
-    return [_find_fizzbuzz_up_to(i) for i in range(1, limit + 1)]
+    return [_find_fizzbuzz_of(i) for i in range(1, limit + 1)]
