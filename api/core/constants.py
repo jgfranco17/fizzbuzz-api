@@ -10,6 +10,7 @@ class EnvironmentVariables:
 @dataclass(frozen=True)
 class RedisConfigs:
     LOCAL: Final[str] = "localhost"
+    DEFAULT_HOST: Final[str] = "redis-cache"
     DEFAULT_PORT: Final[int] = 6379
 
 

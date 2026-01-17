@@ -14,7 +14,7 @@ from api.core.models import FizzBuzzSequence
 
 logger = logging.getLogger(__name__)
 redis_client = Redis(
-    host=os.getenv(EnvironmentVariables.REDIS_HOST),
+    host=os.getenv(EnvironmentVariables.REDIS_HOST, RedisConfigs.LOCAL),
     port=RedisConfigs.DEFAULT_PORT,
     decode_responses=True,
 )
@@ -26,7 +26,8 @@ def __should_use_cache() -> bool:
     Separated the logic in case the cache condition changes
     later down the line.
     """
-    return os.getenv(EnvironmentVariables.REDIS_HOST) == RedisConfigs.LOCAL
+    host_from_env = os.getenv(EnvironmentVariables.REDIS_HOST)
+    return host_from_env == RedisConfigs.LOCAL
 
 
 def __validate_number_input(value: int) -> Tuple[bool, str]:
@@ -41,29 +42,28 @@ router_v0 = APIRouter(prefix="/v0", tags=["FIZZBUZZ"])
 
 
 @router_v0.get("/fizzbuzz")
-def compute(number: Optional[int] = None) -> FizzBuzzSequence:
+def compute(number: int) -> FizzBuzzSequence:
     """Compute the fizzbuzz sequence until the given number."""
     try:
         is_valid, error_message = __validate_number_input(number)
         if not is_valid:
             raise HTTPException(
                 status_code=HTTPStatus.BAD_REQUEST,
-                detail=error_message,
+                detail={"error": error_message},
             )
     except HTTPException as http_err:
         logger.error(f"Invalid input: {http_err.detail}")
         raise HTTPException(
             status_code=http_err.status_code,
-            detail=f"Invalid input: {http_err.detail}",
+            detail={"error": f"Invalid input: {http_err.detail}"},
         )
 
-    # Check cache
     cache_key = f"fizzbuzz:{number}"
     if __should_use_cache():
         cached_result = redis_client.get(cache_key)
         if cached_result:
             logger.debug(f"Key '{cache_key}' found in redis, using cached value")
-            return FizzBuzzSequence.model_validate_json(cached_result)
+            return FizzBuzzSequence.model_validate_json(str(cached_result))
 
     logger.debug(f"Key for number={number} not found, will calculate")
     raw_output = generate_fizzbuzz_sequence(number)
