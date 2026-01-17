@@ -47,9 +47,6 @@ clean:
 pytest *args:
 	@echo "Running unittest suite..."
 	poetry run pytest {{ args }}
-	-@find ./ -name '__pycache__' -exec rm -rf {} \;
-	-@rm -rf .pytest_cache
-	@echo "Cleaned up test environment"
 
 coverage:
     @poetry run coverage run -m pytest

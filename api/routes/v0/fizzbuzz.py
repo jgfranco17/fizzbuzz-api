@@ -3,14 +3,15 @@
 import logging
 import os
 from http import HTTPStatus
-from typing import Optional, Tuple
+from typing import Tuple
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from redis import Redis
 
 from api.core.computation import generate_fizzbuzz_sequence
 from api.core.constants import EnvironmentVariables, RedisConfigs
 from api.core.models import FizzBuzzSequence
+from api.errorhandling.errors import ErrorResponse
 
 logger = logging.getLogger(__name__)
 redis_client = Redis(
@@ -44,19 +45,16 @@ router_v0 = APIRouter(prefix="/v0", tags=["FIZZBUZZ"])
 @router_v0.get("/fizzbuzz")
 def compute(number: int) -> FizzBuzzSequence:
     """Compute the fizzbuzz sequence until the given number."""
-    try:
-        is_valid, error_message = __validate_number_input(number)
-        if not is_valid:
-            raise HTTPException(
-                status_code=HTTPStatus.BAD_REQUEST,
-                detail={"error": error_message},
-            )
-    except HTTPException as http_err:
-        logger.error(f"Invalid input: {http_err.detail}")
-        raise HTTPException(
-            status_code=http_err.status_code,
-            detail={"error": f"Invalid input: {http_err.detail}"},
+
+    is_valid, error_message = __validate_number_input(number)
+    if not is_valid:
+        logger.error(f"Invalid input: {error_message}")
+        error_data = ErrorResponse(
+            status_code=HTTPStatus.BAD_REQUEST,
+            text=error_message,
+            solution="Please provide a valid 'number' query parameter and try again",
         )
+        raise error_data.as_http_exception()
 
     cache_key = f"fizzbuzz:{number}"
     if __should_use_cache():

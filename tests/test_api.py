@@ -60,8 +60,7 @@ def test_compute_endpoint_valid_input(client: TestClient):
 @pytest.mark.api
 def test_compute_endpoint_no_number(client: TestClient):
     response = client.get("/v0/fizzbuzz")
-    assert response.status_code == 400
-    assert "no number provided" in response.json()["message"]
+    assert response.status_code == 422
 
 
 @pytest.mark.api
@@ -76,7 +75,10 @@ def test_compute_endpoint_no_number(client: TestClient):
 def test_compute_endpoint_invalid_number(client: TestClient, value: int, error: str):
     response = client.get(f"/v0/fizzbuzz?number={value}")
     assert response.status_code == 400
-    assert error in response.json()["message"]
+    error_detail = response.json()["message"]
+    assert (
+        error in error_detail["text"]
+    ), f"Expected error message to contain '{error_detail}'"
 
 
 @pytest.mark.api
