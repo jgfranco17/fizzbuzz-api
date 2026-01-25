@@ -21,9 +21,9 @@ class FizzbuzzUser(HttpUser):
     @staticmethod
     def log_response(endpoint: str, status_code: int, response: Response):
         if response.status_code == status_code:
-            logger.info(f"GET {endpoint} - success")
+            logger.info(f"GET {endpoint} {status_code} [success]")
         else:
-            logger.error(f"GET {endpoint} - fail")
+            logger.error(f"GET {endpoint} {status_code} [fail: got {response.status_code}]")
 
     @task(10)
     def test_get_service_info(self):
