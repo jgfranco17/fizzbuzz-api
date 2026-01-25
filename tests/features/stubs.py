@@ -1,3 +1,5 @@
+from typing import Optional
+
 from behave.runner import Context
 from fastapi import Response
 from fastapi.testclient import TestClient
@@ -21,4 +23,4 @@ class TestContext(Context):
     mock_server: TestClient
     setup_complete: bool
     teardown_complete: bool
-    response: Response
+    response: Optional[Response]

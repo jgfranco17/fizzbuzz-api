@@ -48,14 +48,14 @@ pytest *args:
 	@echo "Running unittest suite..."
 	poetry run pytest {{ args }}
 
+# Run Behave feature tests
+behave *args:
+    @echo "Running feature test suite..."
+    poetry run behave {{ args }}
+
 coverage:
     @poetry run coverage run -m pytest
     @poetry run coverage report
-
-# Run Behave feature tests
-behave:
-	@echo "Running feature test suite..."
-	poetry run behave ./tests/features/feature_tests/api_features
 
 # Run load tests
 locust:

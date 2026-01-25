@@ -27,7 +27,7 @@ def step_prelaunch_checks(context: TestContext):
 
 @given("I send a request to the fizzbuzz endpoint with value {value:d}")
 @when("I send a request to the fizzbuzz endpoint with value {value:d}")
-def step_get_request(context: TestContext, value: int):
+def step_get_fizzbuzz_request(context: TestContext, value: int):
     endpoint = f"/v0/fizzbuzz?number={value}"
     context.response = context.mock_server.get(endpoint)
 
@@ -65,5 +65,7 @@ def step_check_count(context: TestContext, count: int, word: str):
 
 @then('an error is raised with "{message}" in "{key:S}"')
 def step_check_error_output(context: TestContext, message: str, key: str):
-    response = context.response.json()[key]
-    assert message in response, f"Unexpected error message in '{key}': {message}"
+    response = context.response.json()["message"][key]
+    assert (
+        message in response
+    ), f"Unexpected error message in '{key}': '{message}' not in {response}"

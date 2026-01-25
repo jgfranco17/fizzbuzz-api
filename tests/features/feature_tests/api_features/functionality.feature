@@ -13,4 +13,4 @@ Feature: API Operation Testing
     Scenario: Invalid input raises error
         When I send a request to the fizzbuzz endpoint with value 0
         Then the response is returned with status code 400
-        And an error is raised with "number must a positive integer" in "message"
+        And an error is raised with "number must a positive integer" in "text"

@@ -57,7 +57,7 @@ jobs:
 
       - name: Run Gherkin tests
         run: |
-          poetry run behave ./tests/features/feature_tests/api_features > behaviors.txt
+          just behave ./tests/features/feature_tests/api_features > behaviors.txt
 
       - name: Create GHA job summary
         if: always()
