@@ -2,8 +2,8 @@ import logging
 from http import HTTPStatus
 from random import randint
 
-import requests
 from locust import HttpUser, between, task
+from requests import Response
 
 logger = logging.getLogger(__package__)
 logger.setLevel(logging.DEBUG)
@@ -14,14 +14,16 @@ logging.basicConfig(
 
 
 class FizzbuzzUser(HttpUser):
+    """Mock user class for the API tests."""
+
     wait_time = between(1, 5)
 
     @staticmethod
-    def log_response(endpoint: str, status_code: int, response: requests.Response):
+    def log_response(endpoint: str, status_code: int, response: Response):
         if response.status_code == status_code:
             logger.info(f"GET {endpoint} - success")
         else:
-            logger.warning(f"GET {endpoint} - fail")
+            logger.error(f"GET {endpoint} - fail")
 
     @task(10)
     def test_get_service_info(self):
