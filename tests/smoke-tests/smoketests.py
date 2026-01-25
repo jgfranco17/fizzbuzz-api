@@ -64,9 +64,7 @@ def run_smoke_tests(output_file: Optional[str] = "") -> None:
     cases = [
         SmokeTestRequest("/", "message", "Welcome to the FizzBuzz API!", HTTPStatus.OK),
         SmokeTestRequest("/healthz", "status", "healthy", HTTPStatus.OK),
-        SmokeTestRequest(
-            "/service-info", "project_name", "fizzbuzz-api", HTTPStatus.OK
-        ),
+        SmokeTestRequest("/service-info", "project_name", "fizzbuzz-api", HTTPStatus.OK),
         SmokeTestRequest(
             "/v0/fizzbuzz?number=5",
             "sequence",
@@ -80,18 +78,11 @@ def run_smoke_tests(output_file: Optional[str] = "") -> None:
     for case in cases:
         case.run_request()
         status, duration, message = case.get_result()
-        results_table.append(
-            [case.endpoint, case.http_code, status, round(duration, 2), message]
-        )
+        results_table.append([case.endpoint, case.http_code, status, round(duration, 2), message])
 
     # Tabulate results
     table_headers = ["Endpoint", "HTTP code", "Result", "Duration (ms)", "Message"]
-    summary = (
-        tabulate(
-            results_table, headers=table_headers, tablefmt="github", numalign="center"
-        )
-        + "\n"
-    )
+    summary = tabulate(results_table, headers=table_headers, tablefmt="github", numalign="center") + "\n"
     print(f"Ran {len(cases)} cases in {sum(case.duration for case in cases):.3f}ms\n")
     print(summary)
 

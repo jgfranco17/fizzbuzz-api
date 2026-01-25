@@ -76,9 +76,7 @@ def test_compute_endpoint_invalid_number(client: TestClient, value: int, error: 
     response = client.get(f"/v0/fizzbuzz?number={value}")
     assert response.status_code == 400
     error_detail = response.json()["message"]
-    assert (
-        error in error_detail["text"]
-    ), f"Expected error message to contain '{error_detail}'"
+    assert error in error_detail["text"], f"Expected error message to contain '{error_detail}'"
 
 
 @pytest.mark.api

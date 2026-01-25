@@ -10,9 +10,7 @@ def load_args() -> argparse.Namespace:
         argparse.Namespace: parsed arguments
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--debug", action="store_true", default=True, help="Enable debug mode"
-    )
+    parser.add_argument("--debug", action="store_true", default=True, help="Enable debug mode")
     parser.add_argument(
         "--port",
         "-p",

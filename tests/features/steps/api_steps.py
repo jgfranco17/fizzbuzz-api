@@ -35,9 +35,7 @@ def step_get_fizzbuzz_request(context: TestContext, value: int):
 @given("I send a request to the {endpoint_name:S} endpoint")
 @when("I send a request to the {endpoint_name:S} endpoint")
 def step_get_request(context: TestContext, endpoint_name: str):
-    assert (
-        endpoint_name in ENDPOINT_MAP.keys()
-    ), f"Endpoint '{endpoint_name}' is not recognized."
+    assert endpoint_name in ENDPOINT_MAP.keys(), f"Endpoint '{endpoint_name}' is not recognized."
     endpoint = ENDPOINT_MAP[endpoint_name]
     context.response = context.mock_server.get(endpoint)
 
@@ -61,15 +59,11 @@ def step_check_count(context: TestContext, count: int, word: str):
     assert context.response is not None, "Last response was null"
     key = __parse_keyword(word)
     instance_count = context.response.json()[key]
-    assert (
-        instance_count == count
-    ), f"Expected {count} instances of '{word}' but only found {instance_count}"
+    assert instance_count == count, f"Expected {count} instances of '{word}' but only found {instance_count}"
 
 
 @then('an error is raised with "{message}" in "{key:S}"')
 def step_check_error_output(context: TestContext, message: str, key: str):
     assert context.response is not None, "Last response was null"
     response = context.response.json()["message"][key]
-    assert (
-        message in response
-    ), f"Unexpected error message in '{key}': '{message}' not in {response}"
+    assert message in response, f"Unexpected error message in '{key}': '{message}' not in {response}"

@@ -4,9 +4,7 @@ from prometheus_client import Counter, Histogram
 class PrometheusMetrics:
     """General shared metrics class."""
 
-    REQUEST_COUNT = Counter(
-        "http_request_count", "Total number of requests", ["method", "endpoint"]
-    )
+    REQUEST_COUNT = Counter("http_request_count", "Total number of requests", ["method", "endpoint"])
     REQUEST_LATENCY = Histogram(
         "http_request_latency_seconds",
         "Request latency in seconds",

@@ -37,11 +37,7 @@ def read_requirements(path):
     """
     Read the dependencies as a list from the file.
     """
-    return [
-        line.strip()
-        for line in read(path).split("\n")
-        if not line.startswith(('"', "#", "-", "git+"))
-    ]
+    return [line.strip() for line in read(path).split("\n") if not line.startswith(('"', "#", "-", "git+"))]
 
 
 setup(
