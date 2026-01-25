@@ -1,8 +1,14 @@
-from typing import Optional
+from typing import Optional, Protocol
 
 from behave.runner import Context
-from fastapi import Response
 from fastapi.testclient import TestClient
+
+
+class ResponseData(Protocol):
+    status_code: int
+
+    def json(self) -> dict:
+        ...
 
 
 class TestContext(Context):
@@ -23,4 +29,4 @@ class TestContext(Context):
     mock_server: TestClient
     setup_complete: bool
     teardown_complete: bool
-    response: Optional[Response]
+    response: Optional[ResponseData]

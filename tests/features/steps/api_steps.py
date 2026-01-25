@@ -1,6 +1,6 @@
 from typing import Dict
 
-from behave import given, then, when
+from behave import given, then, when  # type: ignore
 
 from tests.features.stubs import TestContext
 
@@ -15,7 +15,7 @@ ENDPOINT_MAP: Dict[str, str] = {
 def __parse_keyword(keyword: str):
     keyword = keyword.lower()
     if keyword not in ("fizz", "buzz", "fizzbuzz"):
-        raise ValueError(f"Invalid keyword")
+        raise AssertionError(f"Invalid keyword")
     return keyword
 
 
@@ -38,12 +38,13 @@ def step_get_request(context: TestContext, endpoint_name: str):
     assert (
         endpoint_name in ENDPOINT_MAP.keys()
     ), f"Endpoint '{endpoint_name}' is not recognized."
-    endpoint = ENDPOINT_MAP.get(endpoint_name)
+    endpoint = ENDPOINT_MAP[endpoint_name]
     context.response = context.mock_server.get(endpoint)
 
 
 @then("the response is returned with status code {status_code:d}")
 def step_evaluate_request_status(context: TestContext, status_code: int):
+    assert context.response is not None, "Last response was null"
     assert (
         context.response.status_code == status_code
     ), f"Expected status code {status_code} but got {context.response.status_code}"
@@ -51,11 +52,13 @@ def step_evaluate_request_status(context: TestContext, status_code: int):
 
 @then('the response JSON contains "{message:S}" in keys')
 def step_evaluate_response_message(context: TestContext, message: str):
+    assert context.response is not None, "Last response was null"
     assert message in context.response.json()
 
 
 @then('the sequence contains {count:d} instances of "{word:S}"')
 def step_check_count(context: TestContext, count: int, word: str):
+    assert context.response is not None, "Last response was null"
     key = __parse_keyword(word)
     instance_count = context.response.json()[key]
     assert (
@@ -65,6 +68,7 @@ def step_check_count(context: TestContext, count: int, word: str):
 
 @then('an error is raised with "{message}" in "{key:S}"')
 def step_check_error_output(context: TestContext, message: str, key: str):
+    assert context.response is not None, "Last response was null"
     response = context.response.json()["message"][key]
     assert (
         message in response
